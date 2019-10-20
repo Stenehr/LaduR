@@ -1,5 +1,5 @@
 import { 
-    CHANGE_PRODUCT_NAME,
+    EDIT_PRODUCT_NAME,
     GET_PRODUCT_NAMES
 } from "./types";
 
@@ -14,15 +14,18 @@ export const getProductNames = () => async (dispatch) => {
 
 };
 
-export const changeProductName = (formValues) => async (dispatch) => {
+export const editProductName = (id, name) => async (dispatch) => {
 
     // TODO: MAKE API CALL
 
-    console.log(formValues);
+    console.log(id);
+    console.log(name);
     dispatch({
-        type: CHANGE_PRODUCT_NAME,
+        type: EDIT_PRODUCT_NAME,
         payload: {
-            changeSuccessful: true
+            editSuccessful: true,
+            id,
+            productName: { id, name }
         }
     })
 };

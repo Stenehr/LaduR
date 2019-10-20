@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Menu, Segment } from "semantic-ui-react";
-import ChangeProductName from "./ChangeProductName";
+import ChangeProductName from "./EditProductName";
 
 export default class Settings extends React.Component {
     state = { activeItem: "markUpCost" };
