@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.ProductName;
 using MediatR;
@@ -15,8 +16,12 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProductNameDto>>> Get() =>
+            await _mediator.Send(new List.Query());
+
         [HttpPut("{id}")]
-        public async Task<ActionResult<ProductNameDto>> Edit(int id, EditProductName.Command command) {
+        public async Task<ActionResult<ProductNameDto>> Edit(int id, Edit.Command command) {
             command.Id = id;
             return await _mediator.Send(command);
         }

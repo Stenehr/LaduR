@@ -45,7 +45,7 @@ namespace API
                     .WithOrigins("http://localhost:3000");
                 });
             });
-            services.AddMediatR(typeof(EditProductName.Command).Assembly);
+            services.AddMediatR(typeof(Edit.Command).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

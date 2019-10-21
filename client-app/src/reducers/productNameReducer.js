@@ -18,7 +18,6 @@ export default (state = initialState, action) => {
                 isLoading: false
             };
         case EDIT_PRODUCT_NAME:
-                debugger;
             return {
                 ...state,
                 list: { ...state.list, [action.payload.id]: action.payload.productName },

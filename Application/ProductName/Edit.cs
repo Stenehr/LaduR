@@ -5,7 +5,7 @@ using Persistence;
 
 namespace Application.ProductName
 {
-    public class EditProductName
+    public class Edit
     {
         public class Handler : IRequestHandler<Command, ProductNameDto>
         {
