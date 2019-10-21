@@ -6,7 +6,6 @@ import {
 export const getProductNames = () => async (dispatch) => {
 
     // TODO: MAKE API CALL
-
     dispatch({
         type: GET_PRODUCT_NAMES,
         payload: [{id: 1, name: "haamer"}, {id: 2, name: "nael"}]
@@ -17,9 +16,6 @@ export const getProductNames = () => async (dispatch) => {
 export const editProductName = (id, name) => async (dispatch) => {
 
     // TODO: MAKE API CALL
-
-    console.log(id);
-    console.log(name);
     dispatch({
         type: EDIT_PRODUCT_NAME,
         payload: {

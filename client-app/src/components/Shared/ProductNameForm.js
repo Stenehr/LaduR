@@ -47,5 +47,6 @@ const validations = formValues => (!formValues.name ? { name: "Toote nimi on koh
 
 export default reduxForm({
     form: "productNameForm",
-    validate: validations
+    validate: validations,
+    enableReinitialize: true
 })(ProductNameForm);

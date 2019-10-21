@@ -17,29 +17,29 @@ class EditProductName extends React.Component {
 
     handleChange = (e, { value }) => {
         this.setState({
+            selectedProduct: null
+        });
+        this.setState({
             selectedProduct: _.find(this.props.productNames, productName => productName.id === value)
         });
-        console.log(this.state);
     };
 
-    onSubmit = (values) => {
+    productNamesToDropDownSelect = () => this.props.productNames.map((productName) => {
+        return {
+            key: productName.id,
+            value: productName.id,
+            text: productName.name
+        };
+    });
+
+    onSubmit = values => {
         this.props.editProductName(this.state.selectedProduct.id, values.name);
-    }
+    };
 
     render() {
-        const productNames = this.props.productNames;
-
-        if (!productNames) {
+        if (!this.props.productNames) {
             return <h2>Loading</h2>;
         }
-
-        const productNamesToDrodownSelect = productNames.map(productName => {
-            return {
-                key: productName.id,
-                value: productName.id,
-                text: productName.name
-            };
-        });
 
         return (
             <Grid>
@@ -55,7 +55,7 @@ class EditProductName extends React.Component {
                             fluid
                             search
                             selection
-                            options={productNamesToDrodownSelect}
+                            options={this.productNamesToDropDownSelect()}
                             onChange={this.handleChange}
                         />
                     </Grid.Column>
@@ -64,7 +64,7 @@ class EditProductName extends React.Component {
                     <Grid.Column width={16}>
                         {this.state.selectedProduct && (
                             <ProductNameForm
-                                initialValues={{ ...this.state.selectedProduct }}
+                                initialValues={{...this.state.selectedProduct}}
                                 isChanging
                                 pastName={this.state.selectedProduct.name}
                                 onSubmit={this.onSubmit}
