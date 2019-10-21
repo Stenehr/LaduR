@@ -17,9 +17,6 @@ class EditProductName extends React.Component {
 
     handleChange = (e, { value }) => {
         this.setState({
-            selectedProduct: null
-        });
-        this.setState({
             selectedProduct: _.find(this.props.productNames, productName => productName.id === value)
         });
     };
