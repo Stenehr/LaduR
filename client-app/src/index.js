@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import reduxThunk from "redux-thunk";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import App from "./App";
 import reducers from "./reducers";
@@ -14,6 +16,7 @@ const store = createStore(
     composeEnchancers(applyMiddleware(reduxThunk))
 );
 
+toast.configure();
 const root = document.getElementById("root");
 
 ReactDOM.render(

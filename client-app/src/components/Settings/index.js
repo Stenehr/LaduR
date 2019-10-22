@@ -15,7 +15,7 @@ export default class Settings extends React.Component {
                 return <h1>VAT</h1>;
             case "hourCost":
                 return <h1>horCost</h1>;
-            case "changeProductName":
+            case "editProductName":
                 return <ChangeProductName />
             default:
                 throw new Error("No content");
@@ -43,8 +43,8 @@ export default class Settings extends React.Component {
                             Muuda tunnitasu
                         </Menu.Item>
                         <Menu.Item
-                            name="changeProductName"
-                            active={activeItem === "changeProductName"}
+                            name="editProductName"
+                            active={activeItem === "editProductName"}
                             onClick={this.handleActiveItem}
                         >
                             Muuda tootenimi

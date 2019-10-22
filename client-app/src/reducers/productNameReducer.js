@@ -1,9 +1,8 @@
 import _ from "lodash";
-import { GET_PRODUCT_NAMES, EDIT_PRODUCT_NAME, PRODUCT_NAME_LOADING } from "../actions/types";
+import { GET_PRODUCT_NAMES, EDIT_PRODUCT_NAME, PRODUCT_NAME_LOADING, DELETE_PRODUCT_NAME } from "../actions/types";
 
 const initialState = {
     list: {},
-    editSuccessful: false,
     isLoading: false
 };
 
@@ -21,9 +20,13 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 list: { ...state.list, [action.payload.id]: action.payload.productName },
-                editSuccessful: action.payload.editSuccessful,
                 isLoading: false
             };
+        case DELETE_PRODUCT_NAME:
+            return {
+                ...state,
+                isLoading: false
+            }
         default:
             return state;
     }

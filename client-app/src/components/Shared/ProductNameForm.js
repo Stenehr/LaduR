@@ -12,7 +12,8 @@ class ProductNameForm extends React.Component {
         );
     }
 
-    onSubmit = (formValues) => this.props.onSubmit(formValues);
+    onSubmit = formValues => this.props.onSubmit(formValues);
+    onDelete = () => this.props.onDelete();
 
     render() {
         return (
@@ -25,16 +26,26 @@ class ProductNameForm extends React.Component {
                     </Grid.Row>
                 )}
                 <Grid.Row>
-                    <Grid.Column width={6}>
+                    <Grid.Column width={7}>
                         <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
                             <Field
                                 name="name"
                                 component={this.renderInput}
                                 label={this.props.isChanging ? "Uus nimi" : "Nimi"}
                             />
-                            <Button positive type="submit">
+                            <Button primary type="submit">
                                 Salvesta
                             </Button>
+                            {this.props.isChanging && (    
+                                <Button
+                                    type="button"
+                                    floated="right"
+                                    negative
+                                    onClick={this.onDelete}
+                                >
+                                    Kustuta
+                                </Button>
+                            )}
                         </Form>
                     </Grid.Column>
                 </Grid.Row>

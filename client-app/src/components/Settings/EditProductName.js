@@ -1,8 +1,8 @@
 import _ from "lodash";
 import React from "react";
-import { Grid, Dropdown } from "semantic-ui-react";
+import { Grid, Dropdown, Loader } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { getProductNames, editProductName } from "../../actions/productNameActions";
+import { getProductNames, editProductName, deleteProductName } from "../../actions/productNameActions";
 
 import ProductNameForm from "../Shared/ProductNameForm";
 
@@ -29,13 +29,18 @@ class EditProductName extends React.Component {
         };
     });
 
-    onSubmit = values => {
+    onSubmit = (values) => {
         this.props.editProductName(this.state.selectedProduct.id, values.name);
+        this.setState({
+            selectedProduct: null
+        });
     };
 
+    onDelete = () => this.props.deleteProductName(this.state.selectedProduct.id);
+
     render() {
-        if (!this.props.productNames) {
-            return <h2>Loading</h2>;
+        if (this.props.isLoading) {
+            return <Loader active />;
         }
 
         return (
@@ -65,6 +70,7 @@ class EditProductName extends React.Component {
                                 isChanging
                                 pastName={this.state.selectedProduct.name}
                                 onSubmit={this.onSubmit}
+                                onDelete={this.onDelete}
                             />
                         )}
                     </Grid.Column>
@@ -77,7 +83,8 @@ class EditProductName extends React.Component {
 const mapStateToProps = state => {
     return {
         productNames: Object.values(state.productNames.list),
-        nameChanged: state.productNames.changeSuccessful
+        isLoading: state.productNames.isLoading,
+        editDone: state.productNames.editDone
     };
 };
 
@@ -85,6 +92,7 @@ export default connect(
     mapStateToProps,
     {
         getProductNames,
-        editProductName
+        editProductName,
+        deleteProductName
     }
 )(EditProductName);
