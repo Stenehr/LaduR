@@ -5,6 +5,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import reduxThunk from "redux-thunk";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "semantic-ui-css/semantic.min.css";
 
 import App from "./App";
 import reducers from "./reducers";

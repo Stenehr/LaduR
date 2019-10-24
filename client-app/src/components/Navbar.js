@@ -24,12 +24,14 @@ export default class Navbar extends React.Component {
                             <h2 className="ui header">Ladur</h2>
                         </Menu.Item>
                         <Menu.Item
+                            as={Link}
+                            to="/add-order-in"
                             style={{ marginLeft: "15px" }}
                             name="orderIn"
                             active={activeMenu === "orderIn"}
                             onClick={this.handleMenuChange}
                         >
-                            Sisseostud
+                            Lisa sisseost
                         </Menu.Item>
 
                         <Menu.Menu position="right">
