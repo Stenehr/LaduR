@@ -5,16 +5,20 @@ class SimpleModal extends React.Component {
 
 
     render() {
-        console.log(this.props);
+        const simpleModalEl = document.querySelector("#simple-modal");
+        console.log(simpleModalEl);
         return (
-            <Modal>
+            <Modal
+                trigger={this.props.trigger}
+                mountNode={simpleModalEl}
+                size={this.props.size}
+            >
                 <Modal.Header>{this.props.header}</Modal.Header>
                 <Modal.Content>
                     {this.props.children}
                 </Modal.Content>
             </Modal>
-        );
-    }
+        );}
 }
 
 export default SimpleModal;

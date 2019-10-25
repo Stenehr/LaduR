@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Grid, Button } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import AddProductName from "./AddProductName";
 
 class AddOrderIn extends React.Component {
@@ -17,12 +17,9 @@ class AddOrderIn extends React.Component {
                 <hr />
                 <Grid.Row>
                     <Grid.Column width={5}>
-                        <Button primary onClick={() => this.setState({...this.state, isProductNameAdding: true})}>Lisa tootenimi</Button>
+                        <AddProductName />
                     </Grid.Column>
                 </Grid.Row>
-                {this.state.isProductNameAdding && (
-                    <AddProductName />
-                )}
             </section>
         );
     }
