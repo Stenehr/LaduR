@@ -1,4 +1,5 @@
 import { 
+    ADD_PRODUCT_NAME,
     EDIT_PRODUCT_NAME,
     GET_PRODUCT_NAMES,
     PRODUCT_NAME_LOADING,
@@ -21,6 +22,22 @@ export const getProductNames = () => async (dispatch) => {
     })
 };
 
+export const addProductName = (name) => async (dispatch) => {
+
+    dispatch({
+        type: PRODUCT_NAME_LOADING
+    });
+
+    const productName = await api.productName.add(name);
+
+    dispatch({
+        type: ADD_PRODUCT_NAME,
+        payload: productName
+    });
+
+    toast.success("Tootenimi lisatud")
+}
+
 export const editProductName = (id, name) => async (dispatch) => {
 
     dispatch({
@@ -37,7 +54,7 @@ export const editProductName = (id, name) => async (dispatch) => {
         }
     })
 
-    toast.success("Nimi muudetud!");
+    toast.success("Nimi muudetud");
 };
 
 export const deleteProductName = (id) => async (dispatch) => {

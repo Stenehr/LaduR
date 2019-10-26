@@ -26,7 +26,7 @@ class ProductNameForm extends React.Component {
                     </Grid.Row>
                 )}
                 <Grid.Row>
-                    <Grid.Column width={7}>
+                    <Grid.Column width={8}>
                         <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
                             <Field
                                 name="name"

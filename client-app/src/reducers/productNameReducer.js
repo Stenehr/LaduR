@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { GET_PRODUCT_NAMES, EDIT_PRODUCT_NAME, PRODUCT_NAME_LOADING, DELETE_PRODUCT_NAME } from "../actions/types";
+import { ADD_PRODUCT_NAME, GET_PRODUCT_NAMES, EDIT_PRODUCT_NAME, PRODUCT_NAME_LOADING, DELETE_PRODUCT_NAME } from "../actions/types";
 
 const initialState = {
     list: {},
@@ -16,6 +16,12 @@ export default (state = initialState, action) => {
                 list: _.mapKeys(action.payload, "id"),
                 isLoading: false
             };
+        case ADD_PRODUCT_NAME:
+            return {
+                ...state,
+                [action.payload.id]: action.payload,
+                isLoading: false
+            }
         case EDIT_PRODUCT_NAME:
             return {
                 ...state,

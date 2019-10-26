@@ -6,26 +6,24 @@ using Persistence;
 
 namespace Application.ProductName
 {
-    public class Edit
+    public class Add
     {
         public class Handler : IRequestHandler<Command, ProductNameDto>
         {
-            private readonly DataContext _dataContext;
+            private readonly DataContext _context;
             private readonly IMapper _mapper;
-
-            public Handler(DataContext dataContext, IMapper mapper)
+            public Handler(DataContext context, IMapper mapper)
             {
-                _dataContext = dataContext;
+                _context = context;
                 _mapper = mapper;
             }
 
             public async Task<ProductNameDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                var productName = await _dataContext.ProductNames.FindAsync(request.Id);
+                var productName = new Domain.ProductName { Name = request.Name };
 
-                productName.Name = request.Name;
-
-                await _dataContext.SaveChangesAsync();
+                _context.ProductNames.Add(productName);
+                await _context.SaveChangesAsync();
 
                 return _mapper.Map<ProductNameDto>(productName);
             }
@@ -33,7 +31,6 @@ namespace Application.ProductName
 
         public class Command : IRequest<ProductNameDto>
         {
-            public int Id { get; set; }
             public string Name { get; set; }
         }
     }

@@ -20,6 +20,10 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<ProductNameDto>>> Get() =>
             await _mediator.Send(new List.Query());
 
+        [HttpPost]
+        public async Task<ActionResult<ProductNameDto>> Add(Add.Command command) =>
+            await _mediator.Send(command);
+
         [HttpPut("{id}")]
         public async Task<ActionResult<ProductNameDto>> Edit(int id, Edit.Command command) {
             command.Id = id;
