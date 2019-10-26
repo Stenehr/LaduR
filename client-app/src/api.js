@@ -20,6 +20,12 @@ const productName = {
     delete: (id) => request.delete(productNameController, id)
 }
 
+const vendorController = "vendor";
+const vendor = {
+    add: (body) => request.post(vendorController, body)
+}
+
 export default {
-    productName
+    productName,
+    vendor
 }

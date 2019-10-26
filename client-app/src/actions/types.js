@@ -8,3 +8,4 @@ export const DELETE_PRODUCT_NAME = "DELETE_PRODUCT_NAME";
 // VENDOR
 export const ADD_VENDOR = "ADD_VENDOR";
 export const GET_VENDORS = "GET_VENDORS";
+export const VENDOR_LOADING = "VENDOR_LOADING";
