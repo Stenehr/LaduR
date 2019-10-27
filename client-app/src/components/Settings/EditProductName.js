@@ -82,9 +82,9 @@ class EditProductName extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        productNames: Object.values(state.productNames.list),
-        isLoading: state.productNames.isLoading,
-        editDone: state.productNames.editDone
+        productNames: Object.values(state.productName.list),
+        isLoading: state.productName.isLoading,
+        editDone: state.productName.editDone
     };
 };
 

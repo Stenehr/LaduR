@@ -1,19 +1,20 @@
 import React from "react";
 import ProductNameForm from "../../Shared/ProductNameForm";
 import SimpleModal from "../../Shared/SimpleModal";
-import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { addProductName } from "../../../actions/productNameActions";
 
 class AddProductName extends React.Component {
 
-
-    onSubmit = (name) => this.props.addProductName(name); 
+    onSubmit = (name) =>  {
+        this.props.addProductName(name);
+        this.props.closeModal();
+    }
 
     render() {
         return (
             <SimpleModal
-                trigger={<Button primary>Lisa tootenimi</Button>}
+                open={this.props.open}
                 size={"tiny"}
                 header="Lisa tootenimi"
             >

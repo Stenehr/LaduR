@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Vendor;
 using MediatR;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -15,6 +16,10 @@ namespace API.Controllers
             _mediator = mediator;
 
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<VendorDto>>> Get() =>
+            await _mediator.Send(new List.Query());
 
         [HttpPost]
         public async Task<ActionResult<VendorDto>> Add(Add.Command command) =>

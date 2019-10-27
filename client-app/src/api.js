@@ -22,6 +22,7 @@ const productName = {
 
 const vendorController = "vendor";
 const vendor = {
+    list: () => request.get(vendorController),
     add: (body) => request.post(vendorController, body)
 }
 

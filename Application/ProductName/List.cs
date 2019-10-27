@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -13,8 +14,10 @@ namespace Application.ProductName
         public class Handler : IRequestHandler<Query, List<ProductNameDto>>
         {
             private readonly DataContext _dataContext;
-            public Handler(DataContext dataContext)
+            private readonly IMapper _mapper;
+            public Handler(DataContext dataContext, IMapper mapper)
             {
+                _mapper = mapper;
                 _dataContext = dataContext;
             }
 
@@ -22,7 +25,7 @@ namespace Application.ProductName
             {
                 var list = await _dataContext.ProductNames.ToListAsync();
 
-                return list.Select(pn => new ProductNameDto{ Id = pn.Id, Name = pn.Name}).ToList();
+                return _mapper.Map<List<ProductNameDto>>(list);
             }
         }
 

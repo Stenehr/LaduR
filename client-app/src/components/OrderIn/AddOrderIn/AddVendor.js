@@ -6,26 +6,34 @@ import { Button, Loader } from "semantic-ui-react";
 import { addVendor } from "../../../actions/vendorActions";
 
 class AddVendor extends React.Component {
-    onSubmit = (formValues) => this.props.addVendor(formValues);
+    onSubmit = formValues =>  {
+        this.props.addVendor(formValues);
+    }
 
     render() {
         return (
-            <SimpleModal trigger={<Button primary>Lisa ostukoht</Button>} size="tiny" header="Lisa ostukoht">
-                {this.props.isLoading ?
-                        <Loader active />
-                    :
-                        <VendorForm onSubmit={this.onSubmit} />
-                }
+            <SimpleModal
+                trigger={<Button primary>Lisa ostukoht</Button>}
+                size="tiny"
+                header="Lisa ostukoht"
+                open={this.props.vendorModalOpen}
+            >
+                {this.props.isLoading ? (
+                    <Loader active />
+                ) : (
+                    <VendorForm onCloseModal={this.closeModal} onSubmit={this.onSubmit} />
+                )}
             </SimpleModal>
         );
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
-        isLoading: state.isLoading
-    }
-} 
+        isLoading: state.vendor.isLoading,
+        vendorModalOpen: state.vendor.vendorModalOpen
+    };
+};
 
 export default connect(
     mapStateToProps,

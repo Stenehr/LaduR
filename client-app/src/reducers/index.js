@@ -5,6 +5,6 @@ import vendorReducer from "./vendorReducer";
 
 export default combineReducers({
     form: formReducer,
-    productNames: productNameReducer,
-    vendors: vendorReducer
+    productName: productNameReducer,
+    vendor: vendorReducer
 });

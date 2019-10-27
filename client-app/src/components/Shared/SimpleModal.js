@@ -5,9 +5,8 @@ class SimpleModal extends React.Component {
     render() {
         return (
             <Modal
-                trigger={this.props.trigger}
+                open={this.props.open}
                 size={this.props.size}
-                closeIcon
             >
                 <Modal.Header>{this.props.header}</Modal.Header>
                 <Modal.Content>
