@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -35,6 +36,14 @@ namespace Application.ProductName
         {
             public int Id { get; set; }
             public string Name { get; set; }
+        }
+
+        public class ProductNameEditValidator : AbstractValidator<Command>
+        {
+            public ProductNameEditValidator() 
+            {
+                RuleFor(x => x.Name).NotEmpty().WithMessage("Toote nimi on kohustuslik");
+            }
         }
     }
 }

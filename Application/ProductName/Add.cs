@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -20,7 +21,7 @@ namespace Application.ProductName
 
             public async Task<ProductNameDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                var productName = new Domain.ProductName { Name = request.Name };
+                var productName = new Domain.ProductName(request.Name);
 
                 _context.ProductNames.Add(productName);
                 await _context.SaveChangesAsync();
@@ -32,6 +33,14 @@ namespace Application.ProductName
         public class Command : IRequest<ProductNameDto>
         {
             public string Name { get; set; }
+        }
+
+        public class ProductNameAddValidator : AbstractValidator<Command> 
+        {
+            public ProductNameAddValidator()
+            {
+                RuleFor(x => x.Name).NotEmpty().WithMessage("Toote nimi on kohustuslik.");
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -35,6 +36,14 @@ namespace Application.Vendor
         {
             public string Name { get; set; }
             public string Address { get; set; }
+        }
+
+        public class VendodAddValidator : AbstractValidator<Command>
+        {
+            public VendodAddValidator()
+            {
+                RuleFor(x => x.Name).NotEmpty().WithMessage("Ostukoha nimi on kohustuslik");
+            }
         }
     }
 }
