@@ -1,22 +1,35 @@
-import React from "react";
-import { Modal, Button, Icon } from "semantic-ui-react";
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+import { Button, Form, Icon, Modal } from 'semantic-ui-react';
 
-export default () => {
-    
+import OrderInStore from '../../stores/orderInStore';
+
+const AddVendor = () => {
+    const orderInStore = useContext(OrderInStore);
+
+    const handleSubmit = (e: any, values: any) => {
+        console.log(values);
+    };
 
     return (
-        <Modal header="Ostukoha lisamine" open>
+        <Modal open size="tiny">
+            <Modal.Header>Ostukoha lisamine</Modal.Header>
             <Modal.Content>
-                Ostukoha lisamine
+                <Form id="add-vendor-form" loading={orderInStore.loadingVendorAdding} onSubmit={handleSubmit}>
+                    <Form.Input name="name" label="Nimi" />
+                    <Form.Input name="address" label="Aadress" />
+                </Form>
             </Modal.Content>
             <Modal.Actions>
                 <Button basic color="red">
                     <Icon name="remove" /> Tagasi
                 </Button>
-                <Button color="green">
+                <Button type="submit" form="add-vendor-form" color="green">
                     <Icon name="checkmark" /> Lisa
                 </Button>
             </Modal.Actions>
         </Modal>
     );
 };
+
+export default observer(AddVendor);

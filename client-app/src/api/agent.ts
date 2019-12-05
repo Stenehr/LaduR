@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { IAddVendor } from '../components/vendor/types';
+import { IAddVendor, IVendor } from '../components/vendor/types';
 import { IAddProductName, IEditProductName } from '../components/product-name/types';
 
 axios.defaults.baseURL = "http://localhost:5000/api";
@@ -14,8 +14,8 @@ const requests = {
 }
 
 const Vendors = {
-    list: () => requests.get("/vendor"),
-    create: (body: IAddVendor) => requests.post("/vendor", body)
+    list: (): Promise<IVendor[]> => requests.get("/vendor"),
+    create: (body: IAddVendor): Promise<IVendor> => requests.post("/vendor", body)
 }
 
 const ProductNames = {
@@ -24,4 +24,9 @@ const ProductNames = {
     create: (body: IAddProductName) => requests.post("/productName", body),
     update: (body: IEditProductName) => requests.put(`/productName/${body.id}`, body),
     delete: (id: number) => requests.delete(`/productName/${id}`)
+}
+
+export default {
+    Vendors,
+    ProductNames
 }

@@ -1,6 +1,12 @@
+export interface IVendor {
+    id: number;
+    name: string;
+    address: string | null;
+}
+
 export interface IAddVendor {
-    name: string | undefined;
-    address: string | undefined;
+    name: string;
+    address: string | null;
 }
 
 export interface IEditVendor extends IAddVendor {
