@@ -1,13 +1,15 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { Button, Form, Icon, Modal } from 'semantic-ui-react';
+import { Form as FinalForm, Field } from "react-final-form";
 
 import OrderInStore from '../../stores/orderInStore';
+import TextInput from '../common/form/TextInput';
 
 const AddVendor = () => {
     const orderInStore = useContext(OrderInStore);
 
-    const handleSubmit = (e: any, values: any) => {
+    const handleFormSubmit = (values: any) => {
         console.log(values);
     };
 
@@ -15,10 +17,15 @@ const AddVendor = () => {
         <Modal open size="tiny">
             <Modal.Header>Ostukoha lisamine</Modal.Header>
             <Modal.Content>
-                <Form id="add-vendor-form" loading={orderInStore.loadingVendorAdding} onSubmit={handleSubmit}>
-                    <Form.Input name="name" label="Nimi" />
-                    <Form.Input name="address" label="Aadress" />
-                </Form>
+                <FinalForm 
+                    onSubmit={handleFormSubmit}
+                    render={({ handleSubmit }) => (
+                        <Form id="add-vendor-form" loading={orderInStore.loadingVendorAdding} onSubmit={handleSubmit}>
+                            <Field name="name" placeholder="Ostukoha nimi" component={TextInput} />
+                            <Field name="address" placeholder="Ostukoha aadress" component={TextInput} />
+                        </Form>
+                    )}
+                />
             </Modal.Content>
             <Modal.Actions>
                 <Button basic color="red">
