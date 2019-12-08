@@ -5,12 +5,15 @@ import { Form as FinalForm, Field } from "react-final-form";
 
 import OrderInStore from '../../stores/orderInStore';
 import TextInput from '../common/form/TextInput';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { IAddVendor } from './types';
 
-const AddVendor = () => {
+const AddVendor: React.FC<RouteComponentProps> = ({ history }) => {
     const orderInStore = useContext(OrderInStore);
 
-    const handleFormSubmit = (values: any) => {
-        console.log(values);
+    const handleFormSubmit = (vendorDto: IAddVendor) => {
+        orderInStore.addVendor(vendorDto);
+        history.push("/add-order-in")
     };
 
     return (
@@ -28,7 +31,7 @@ const AddVendor = () => {
                 />
             </Modal.Content>
             <Modal.Actions>
-                <Button basic color="red">
+                <Button as={Link} to="/add-order-in" basic color="red">
                     <Icon name="remove" /> Tagasi
                 </Button>
                 <Button type="submit" form="add-vendor-form" color="green">
