@@ -8,10 +8,11 @@ import DropdownInput from '../common/form/DropdownInput';
 
 const AddOrderIn = () => {
     const orderInStore = useContext(OrderInStore);
+    const loadVendors = !orderInStore.vendorsLoaded;
 
     useEffect(() => {
         orderInStore.loadVendors();
-    }, [orderInStore])
+    }, [orderInStore, loadVendors])
 
     const handleFormSubmit = (values: any) => {
         console.log("submit");
@@ -26,9 +27,9 @@ const AddOrderIn = () => {
             <FinalForm
                 onSubmit={handleFormSubmit}
                 render={({ handleSubmit }) => (
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group widths="equal">
-                            <Field name="vendor" placeholder="Vali ostukoht..." value={orderInStore.orderIn.vendorId} options={orderInStore.dropdownVendors} component={DropdownInput} />
+                            <Field name="vendorId" placeholder="Vali ostukoht..." value={orderInStore.orderIn.vendorId} options={orderInStore.dropdownVendors} component={DropdownInput} />
                         </Form.Group>
                         <Button type="submit">Salvesta</Button>
                     </Form>

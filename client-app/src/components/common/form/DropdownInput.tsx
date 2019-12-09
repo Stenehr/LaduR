@@ -1,16 +1,31 @@
 import React from "react";
-import { Dropdown, FormFieldProps } from "semantic-ui-react";
-import { FieldRenderProps } from 'react-final-form';
+import { Dropdown, FormFieldProps, Form, Label } from "semantic-ui-react";
+import { FieldRenderProps } from "react-final-form";
+import { IDropdownItem } from "./types";
 
 interface IProps extends FieldRenderProps<string | number, HTMLElement>, FormFieldProps {
-    options: Array<{ text: string, value: string | number}>
+    options: IDropdownItem[];
 }
 
-const DropdownInput: React.FC<IProps> = (props) => {
-    console.log(props);
+const DropdownInput: React.FC<IProps> = ({ input, placeholder, options, width, meta: { touched, error }}) => {
     return (
-        <Dropdown placeholder={props.placeholder} value={props.value} search selection options={props.options} />
-    )
-}
+        <Form.Field>
+            <Dropdown
+                placeholder={placeholder}
+                value={input.value}
+                width={width}
+                onChange={(e, data) => input.onChange(data.value)}
+                search
+                selection
+                options={options}
+            />
+            {touched && error && (
+                <Label basic color="red">
+                    {error}
+                </Label>
+            )}
+        </Form.Field>
+    );
+};
 
 export default DropdownInput;
