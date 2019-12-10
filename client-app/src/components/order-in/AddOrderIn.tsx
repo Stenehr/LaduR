@@ -9,11 +9,11 @@ import TextInput from "../common/form/TextInput";
 
 const AddOrderIn = () => {
     const orderInStore = useContext(OrderInStore);
-    const loadVendors = orderInStore.vendorsLoaded;
+    const vendorsLoaded = orderInStore.vendorsLoaded;
 
     useEffect(() => {
         orderInStore.loadVendors();
-    }, [orderInStore, !loadVendors]);
+    }, [orderInStore, !vendorsLoaded]);
 
     const handleFormSubmit = (values: any) => {
         console.log("submit");

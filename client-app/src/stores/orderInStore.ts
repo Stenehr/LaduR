@@ -50,7 +50,7 @@ class OrderInStore {
 
         try {
             const vendor = await agent.Vendors.create(vendorDto);
-            runInAction(async () => {
+            runInAction(() => {
                 this.vendors.push(vendor);
                 this.orderIn.vendorId = vendor.id;
                 history.push("/add-order-in");
