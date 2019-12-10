@@ -11,10 +11,7 @@ import { IAddVendor } from './types';
 const AddVendor: React.FC<RouteComponentProps> = ({ history }) => {
     const orderInStore = useContext(OrderInStore);
 
-    const handleFormSubmit = (vendorDto: IAddVendor) => {
-        orderInStore.addVendor(vendorDto);
-        history.push("/add-order-in")
-    };
+    const handleFormSubmit = (vendorDto: IAddVendor) => orderInStore.addVendor(vendorDto);
 
     return (
         <Modal open size="tiny">

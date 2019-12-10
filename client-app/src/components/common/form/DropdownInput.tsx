@@ -1,5 +1,5 @@
 import React from "react";
-import { Dropdown, FormFieldProps, Form, Label } from "semantic-ui-react";
+import { FormFieldProps, Form, Label, Select } from "semantic-ui-react";
 import { FieldRenderProps } from "react-final-form";
 import { IDropdownItem } from "./types";
 
@@ -10,7 +10,7 @@ interface IProps extends FieldRenderProps<string | number, HTMLElement>, FormFie
 const DropdownInput: React.FC<IProps> = ({ input, placeholder, options, width, meta: { touched, error }}) => {
     return (
         <Form.Field>
-            <Dropdown
+            <Select
                 placeholder={placeholder}
                 value={input.value}
                 width={width}
