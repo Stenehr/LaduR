@@ -36,6 +36,7 @@ const AddOrderIn = () => {
                                 <Field
                                     name="vendorId"
                                     placeholder="Vali ostukoht..."
+                                    labelText="Ostukoht"
                                     options={orderInStore.dropdownVendors}
                                     component={DropdownInput}
                                 />
