@@ -32,7 +32,7 @@ const AddOrderIn = () => {
                     onSubmit={handleFormSubmit}
                     render={({ handleSubmit }) => (
                         <Form onSubmit={handleSubmit}>
-                            <Form.Group widths="equal" style={{width: "400px"}}>
+                            <Form.Group widths="equal" style={{maxWidth: "800px"}}>
                                 <Field
                                     name="vendorId"
                                     placeholder="Vali ostukoht..."
@@ -42,8 +42,14 @@ const AddOrderIn = () => {
                                 />
                                 <Field
                                     name="orderDate"
-                                    placeholder="Ostuaeg"
+                                    labelText="Ostuaeg"
                                     type="date"
+                                    component={TextInput}
+                                />
+                                <Field
+                                    name="billNumber"
+                                    placeholder="Tšeki nr..."
+                                    labelText="Ostutšeki number"
                                     component={TextInput}
                                 />
                             </Form.Group>

@@ -8,6 +8,7 @@ import { history } from "..";
 interface IOrderIn {
     vendorId: number | string | null;
     orderDate: null | string | Date;
+    billNumber: null | string;
 }
 
 class OrderInStore {
@@ -20,7 +21,8 @@ class OrderInStore {
 
     @observable orderIn: IOrderIn = {
         vendorId: null,
-        orderDate: null
+        orderDate: null,
+        billNumber: null
     };
 
     @computed get dropdownVendors(): IDropdownItem[] {

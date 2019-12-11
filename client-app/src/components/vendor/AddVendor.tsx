@@ -17,7 +17,7 @@ const AddVendor: React.FC<RouteComponentProps> = ({ history }) => {
         <Modal open size="tiny">
             <Modal.Header>Ostukoha lisamine</Modal.Header>
             <Modal.Content>
-                <FinalForm 
+                <FinalForm
                     onSubmit={handleFormSubmit}
                     render={({ handleSubmit }) => (
                         <Form id="add-vendor-form" loading={orderInStore.loadingVendorAdding} onSubmit={handleSubmit}>
