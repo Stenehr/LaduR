@@ -1,14 +1,15 @@
-import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect } from 'react';
-import { Field, Form as FinalForm } from 'react-final-form';
-import { Link } from 'react-router-dom';
-import { Button, Form, Header, Segment } from 'semantic-ui-react';
+import { observer } from "mobx-react-lite";
+import React, { useContext, useEffect } from "react";
+import { Field, Form as FinalForm } from "react-final-form";
+import { Link } from "react-router-dom";
+import { Button, Form, Header, Segment, Container } from "semantic-ui-react";
 
-import OrderInStore from '../../stores/orderInStore';
-import DropdownInput from '../common/form/DropdownInput';
-import TextAreaInput from '../common/form/TextAreaInput';
-import TextInput from '../common/form/TextInput';
-import AddProduct from './AddProduct';
+import OrderInStore from "../../stores/orderInStore";
+import DropdownInput from "../common/form/DropdownInput";
+import TextAreaInput from "../common/form/TextAreaInput";
+import TextInput from "../common/form/TextInput";
+import AddProduct from "./AddProduct";
+import BottomComponent from "../common/BottomComponent";
 
 const AddOrderIn = () => {
     const orderInStore = useContext(OrderInStore);
@@ -34,7 +35,7 @@ const AddOrderIn = () => {
                     initialValues={orderInStore.orderIn}
                     onSubmit={handleFormSubmit}
                     render={({ handleSubmit }) => (
-                        <Form onSubmit={handleSubmit}>
+                        <Form id="order-in-form" onSubmit={handleSubmit}>
                             <h3>Ostukohainfo</h3>
                             <Form.Group widths="equal">
                                 <Field
@@ -52,7 +53,15 @@ const AddOrderIn = () => {
                                     component={TextInput}
                                 />
                             </Form.Group>
-                            <Button type="submit">Salvesta</Button>
+                            <BottomComponent>
+                                <Container>
+                                    <Segment>
+                                        <Button type="submit" form="order-in-form">
+                                            Salvesta
+                                        </Button>
+                                    </Segment>
+                                </Container>
+                            </BottomComponent>
                         </Form>
                     )}
                 />
