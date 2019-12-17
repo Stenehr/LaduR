@@ -1,11 +1,14 @@
-import React, { useContext, useEffect } from "react";
-import { Form, Button, Header, Segment } from "semantic-ui-react";
-import { Form as FinalForm, Field } from "react-final-form";
-import { Link } from "react-router-dom";
-import { observer } from "mobx-react-lite";
-import OrderInStore from "../../stores/orderInStore";
-import DropdownInput from "../common/form/DropdownInput";
-import TextInput from "../common/form/TextInput";
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect } from 'react';
+import { Field, Form as FinalForm } from 'react-final-form';
+import { Link } from 'react-router-dom';
+import { Button, Form, Header, Segment } from 'semantic-ui-react';
+
+import OrderInStore from '../../stores/orderInStore';
+import DropdownInput from '../common/form/DropdownInput';
+import TextAreaInput from '../common/form/TextAreaInput';
+import TextInput from '../common/form/TextInput';
+import AddProduct from './AddProduct';
 
 const AddOrderIn = () => {
     const orderInStore = useContext(OrderInStore);
@@ -32,7 +35,8 @@ const AddOrderIn = () => {
                     onSubmit={handleFormSubmit}
                     render={({ handleSubmit }) => (
                         <Form onSubmit={handleSubmit}>
-                            <Form.Group widths="equal" style={{maxWidth: "800px"}}>
+                            <h3>Ostukohainfo</h3>
+                            <Form.Group widths="equal">
                                 <Field
                                     name="vendorId"
                                     placeholder="Vali ostukoht..."
@@ -40,12 +44,7 @@ const AddOrderIn = () => {
                                     options={orderInStore.dropdownVendors}
                                     component={DropdownInput}
                                 />
-                                <Field
-                                    name="orderDate"
-                                    labelText="Ostuaeg"
-                                    type="date"
-                                    component={TextInput}
-                                />
+                                <Field name="orderDate" labelText="Ostuaeg" type="date" component={TextInput} />
                                 <Field
                                     name="billNumber"
                                     placeholder="Tšeki nr..."
@@ -57,6 +56,8 @@ const AddOrderIn = () => {
                         </Form>
                     )}
                 />
+                <h3>Tooteinfo</h3>
+                <AddProduct />
             </Segment>
         </div>
     );
