@@ -30,43 +30,50 @@ const AddOrderIn = () => {
             <Button as={Link} to="/add-vendor">
                 Lisa uus ostukoht
             </Button>
+            <Button as={Link} to="/add-product-name">
+                Lisa tootenimi
+            </Button>
             <Segment>
-                <FinalForm
-                    initialValues={orderInStore.orderIn}
-                    onSubmit={handleFormSubmit}
-                    render={({ handleSubmit }) => (
-                        <Form id="order-in-form" onSubmit={handleSubmit}>
-                            <h3>Ostukohainfo</h3>
-                            <Form.Group widths="equal">
-                                <Field
-                                    name="vendorId"
-                                    placeholder="Vali ostukoht..."
-                                    labelText="Ostukoht"
-                                    options={orderInStore.dropdownVendors}
-                                    component={DropdownInput}
-                                />
-                                <Field name="orderDate" labelText="Ostuaeg" type="date" component={TextInput} />
-                                <Field
-                                    name="billNumber"
-                                    placeholder="Tšeki nr..."
-                                    labelText="Ostutšeki number"
-                                    component={TextInput}
-                                />
-                            </Form.Group>
-                            <BottomComponent>
-                                <Container>
-                                    <Segment>
-                                        <Button type="submit" form="order-in-form">
-                                            Salvesta
-                                        </Button>
-                                    </Segment>
-                                </Container>
-                            </BottomComponent>
-                        </Form>
-                    )}
-                />
-                <h3>Tooteinfo</h3>
-                <AddProduct />
+                <Segment>
+                    <FinalForm
+                        initialValues={orderInStore.orderIn}
+                        onSubmit={handleFormSubmit}
+                        render={({ handleSubmit }) => (
+                            <Form id="order-in-form" onSubmit={handleSubmit}>
+                                <h3>Ostukohainfo</h3>
+                                <Form.Group widths="equal">
+                                    <Field
+                                        name="vendorId"
+                                        placeholder="Vali ostukoht..."
+                                        labelText="Ostukoht"
+                                        options={orderInStore.dropdownVendors}
+                                        component={DropdownInput}
+                                    />
+                                    <Field name="orderDate" labelText="Ostuaeg" type="date" component={TextInput} />
+                                    <Field
+                                        name="billNumber"
+                                        placeholder="Tšeki nr..."
+                                        labelText="Ostutšeki number"
+                                        component={TextInput}
+                                    />
+                                </Form.Group>
+                                <BottomComponent>
+                                    <Container>
+                                        <Segment>
+                                            <Button type="submit" form="order-in-form">
+                                                Salvesta
+                                            </Button>
+                                        </Segment>
+                                    </Container>
+                                </BottomComponent>
+                            </Form>
+                        )}
+                    />
+                </Segment>
+                <Segment>
+                    <h3>Tooteinfo</h3>
+                    <AddProduct />
+                </Segment>
             </Segment>
         </div>
     );

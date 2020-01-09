@@ -7,6 +7,7 @@ import { Route } from 'react-router-dom';
 import HomePage from './components/common/HomePage';
 import AddOrderIn from './components/order-in/AddOrderIn';
 import AddVendor from './components/vendor/AddVendor';
+import AddProductName from './components/product-name/AddProductName';
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/" exact component={HomePage} />
         <Route path="/add-order-in" exact component={AddOrderIn} />
         <Route path="/add-vendor" exact component={AddVendor} />
+        <Route path="/add-product-name" exact component={AddProductName} />
       </Container>
     </Fragment>
   );
