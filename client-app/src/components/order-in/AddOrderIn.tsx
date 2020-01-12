@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
 import { Field, Form as FinalForm } from "react-final-form";
 import { Link } from "react-router-dom";
-import { Button, Form, Header, Segment, Container } from "semantic-ui-react";
+import { Button, Form, Header, Segment, Container, Grid } from "semantic-ui-react";
 
 import OrderInStore from "../../stores/orderInStore";
 import DropdownInput from "../common/form/DropdownInput";
@@ -10,6 +10,7 @@ import TextAreaInput from "../common/form/TextAreaInput";
 import TextInput from "../common/form/TextInput";
 import AddProduct from "./AddProduct";
 import BottomComponent from "../common/BottomComponent";
+import ProductTable from "./ProductTable";
 
 const AddOrderIn = () => {
     const orderInStore = useContext(OrderInStore);
@@ -74,9 +75,16 @@ const AddOrderIn = () => {
                 </Segment>
                 <Segment>
                     <h3>Tooteinfo</h3>
-                    <AddProduct
-                        productNames={orderInStore.dropdownProductNames}
-                    />
+                    <Grid>
+                        <Grid.Row>
+                            <Grid.Column width={6}>
+                                <AddProduct />
+                            </Grid.Column>
+                            <Grid.Column width={10}>
+                                <ProductTable />
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 </Segment>
             </Segment>
         </div>

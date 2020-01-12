@@ -63,6 +63,8 @@ class OrderInStore {
         }));
     }
 
+    @action getProductName = (productNameId: number) => this.productNames.filter((name) => name.id === productNameId)[0].name;
+
     @action loadVendors = async () => {
         this.loadingInitial = true;
 

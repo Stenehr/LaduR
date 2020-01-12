@@ -8,13 +8,15 @@ import DropdownInput from '../common/form/DropdownInput';
 import { IDropdownItem } from '../common/form/types';
 import { IProduct } from "../../stores/orderInStore";
 
-export const AddProduct: React.FC<{productNames: IDropdownItem[]}> = ({productNames}) => {
+const AddProduct = () => {
     const orderInStore = useContext(OrderInStore);
 
     const handleProductSubmit = (product: IProduct) =>  {
         orderInStore.addProduct(product);
 
     }
+
+    const productNamesDropdown = orderInStore.dropdownProductNames;
 
     return (
         <div>
@@ -23,9 +25,9 @@ export const AddProduct: React.FC<{productNames: IDropdownItem[]}> = ({productNa
                 onSubmit={handleProductSubmit}
                 render={(props) => (
                     <Grid>
-                        <Grid.Column width={4}>
+                        <Grid.Column width={12}>
                             <Form onSubmit={(values) => { props.handleSubmit(values); props.form.reset() }}>
-                                <Field name="productNameId" placeholder="Tootenimi" labelText="Tootenimi" component={DropdownInput} width="6rem" options={productNames} />
+                                <Field name="productNameId" placeholder="Tootenimi" labelText="Tootenimi" component={DropdownInput} width="6rem" options={productNamesDropdown} />
                                 <Field name="price" placeholder="Hind..." labelText="Hind" component={TextInput} width="6rem" inputSuffix="EUR" />
                                 <Field name="quantity" placeholder="Kogus..." labelText="Kogus" component={TextInput} width="6rem" inputSuffix="TK"/>
                                 <Button positive type="submit">Lisa toode</Button>
