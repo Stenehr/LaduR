@@ -3,12 +3,13 @@ import { Button, Icon } from "semantic-ui-react";
 
 interface IProps {
     text?: string;
+    disabled?: boolean;
     form: string;
 }
 
-export const SubmitButton: React.FC<IProps> = ({ text, form }) => {
+export const SubmitButton: React.FC<IProps> = ({ text, form, disabled = false }) => {
     return (
-        <Button type="submit" form={form} color="green">
+        <Button type="submit" disabled={disabled} form={form} color="green">
             <Icon name="checkmark" /> {!!text ? text : "Lisa"}
         </Button>
     );

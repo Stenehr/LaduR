@@ -14,10 +14,12 @@ import BottomComponent from "../common/BottomComponent";
 const AddOrderIn = () => {
     const orderInStore = useContext(OrderInStore);
     const vendorsLoaded = orderInStore.vendorsLoaded;
+    const productNamesLoaded = orderInStore.productNamesLoaded;
 
     useEffect(() => {
         orderInStore.loadVendors();
-    }, [orderInStore, !vendorsLoaded]);
+        orderInStore.loadProductNames();
+    }, [orderInStore, !vendorsLoaded, !productNamesLoaded]);
 
     const handleFormSubmit = (values: any) => {
         console.log("submit");
@@ -72,7 +74,9 @@ const AddOrderIn = () => {
                 </Segment>
                 <Segment>
                     <h3>Tooteinfo</h3>
-                    <AddProduct />
+                    <AddProduct
+                        productNames={orderInStore.dropdownProductNames}
+                    />
                 </Segment>
             </Segment>
         </div>

@@ -2,13 +2,29 @@ import { observable, action, runInAction, computed } from "mobx";
 import { createContext } from "react";
 import { IVendor, IAddVendor } from "../components/vendor/types";
 import agent from "../api/agent";
-import { IDropdownItem } from "../components/common/form/types";
+import { IDropdownItem } from '../components/common/form/types';
 import { history } from "..";
+import { IProductName, IAddProductName } from '../components/product-name/types';
 
 interface IOrderIn {
     vendorId: number | string | null;
     orderDate: null | string | Date;
     billNumber: null | string;
+    products: IProduct[];
+}
+
+export interface IProduct {
+    productNameId: number | null;
+    quantity: number | null;
+    price: number | null;
+}
+
+function emptyProduct(): IProduct {
+    return {
+        productNameId: null,
+        quantity: null,
+        price: null
+    }
 }
 
 class OrderInStore {
@@ -17,19 +33,33 @@ class OrderInStore {
     @observable loadingVendorAdding = false;
     @observable vendors: IVendor[] = [];
     @observable vendorsLoaded = false;
-    @observable selectedVendor: IVendor | null = null;
+
+    @observable loadingProductNameAdding = false;
+    @observable productNames: IProductName[] = [];
+    @observable productNamesLoaded = false;
 
     @observable orderIn: IOrderIn = {
         vendorId: null,
         orderDate: null,
-        billNumber: null
+        billNumber: null,
+        products: []
     };
+
+    @observable selectedProduct: IProduct = emptyProduct();
 
     @computed get dropdownVendors(): IDropdownItem[] {
         return Array.from(this.vendors).map(vendor => ({
             key: vendor.id,
             text: `${vendor.name} - ${vendor.address}`,
             value: vendor.id
+        }));
+    }
+
+    @computed get dropdownProductNames(): IDropdownItem[] {
+        return this.productNames.map((productName) => ({
+            key: productName.id,
+            text: productName.name,
+            value: productName.id
         }));
     }
 
@@ -58,9 +88,43 @@ class OrderInStore {
                 history.push("/add-order-in");
             });
         } finally {
-            runInAction(() => (this.loadingVendorAdding = false));
+            runInAction(() => this.loadingVendorAdding = false);
         }
     };
+
+    @action loadProductNames = async() => {
+        this.loadingInitial = true;
+
+        try {
+            const productNames = await agent.ProductNames.list();
+            runInAction(() => {
+                this.productNames = productNames;
+                this.productNamesLoaded = true;
+            })
+        } finally {
+            runInAction(() => this.loadingInitial = false);
+        }
+    }
+
+    @action addProductName = async (productNameDto: IAddProductName) => {
+        this.loadingProductNameAdding = true;
+
+        try {
+            const productName = await agent.ProductNames.create(productNameDto);
+            runInAction(() => {
+                this.productNames.push(productName);
+                this.selectedProduct.productNameId = productName.id;
+                history.push("/add-order-in");
+            })
+        } finally {
+            this.loadingProductNameAdding = false;
+        }
+    }
+
+    @action addProduct = (productDto: IProduct) => {
+        this.orderIn.products.push(productDto);
+        this.selectedProduct = emptyProduct();
+    }
 }
 
 export default createContext(new OrderInStore());

@@ -1,7 +1,9 @@
 export interface IAddProductName {
-    name: string | undefined;
+    id?: number;
+    name: string;
 }
 
-export interface IEditProductName extends IAddProductName {
-    id: number
+export interface IProductName {
+    id: number;
+    name: string;
 }

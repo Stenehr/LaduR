@@ -14,6 +14,8 @@ const AddVendor: React.FC<RouteComponentProps> = () => {
 
     const handleFormSubmit = (vendorDto: IAddVendor) => orderInStore.addVendor(vendorDto);
 
+    const loading = orderInStore.loadingVendorAdding;
+
     return (
         <Modal open size="tiny">
             <Modal.Header>Ostukoha lisamine</Modal.Header>
@@ -21,7 +23,7 @@ const AddVendor: React.FC<RouteComponentProps> = () => {
                 <FinalForm
                     onSubmit={handleFormSubmit}
                     render={({ handleSubmit }) => (
-                        <Form id="add-vendor-form" loading={orderInStore.loadingVendorAdding} onSubmit={handleSubmit}>
+                        <Form id="add-vendor-form" loading={loading} onSubmit={handleSubmit}>
                             <Field name="name" placeholder="Ostukoha nimi" component={TextInput} />
                             <Field name="address" placeholder="Ostukoha aadress" component={TextInput} />
                         </Form>
@@ -32,7 +34,7 @@ const AddVendor: React.FC<RouteComponentProps> = () => {
                 <Button as={Link} to="/add-order-in" basic color="red">
                     <Icon name="remove" /> Tagasi
                 </Button>
-                <SubmitButton form="add-vendor-form" />
+                <SubmitButton disabled={loading} form="add-vendor-form" />
             </Modal.Actions>
         </Modal>
     );

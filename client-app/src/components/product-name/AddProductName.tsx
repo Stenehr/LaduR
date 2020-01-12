@@ -11,7 +11,9 @@ import { SubmitButton } from '../common/form/SubmitButton';
 const AddProductName = () => {
     const orderInStore = useContext(OrderInStore);
 
-    const handleFormSubmit = (values: any) => console.log(values);
+    const handleFormSubmit = (productNameDto: IAddProductName) => orderInStore.addProductName(productNameDto);
+
+    const loading = orderInStore.loadingProductNameAdding;
 
     return (
         <Modal open size="tiny">
@@ -20,7 +22,7 @@ const AddProductName = () => {
                 <FinalForm
                     onSubmit={handleFormSubmit}
                     render={({ handleSubmit }) => (
-                        <Form id="add-product-name" onSubmit={handleSubmit} >
+                        <Form id="add-product-name" loading={loading} onSubmit={handleSubmit} >
                             <Field name="name" placeholder="Toote nimi" component={TextInput} />
                         </Form>
                     )}
@@ -30,7 +32,7 @@ const AddProductName = () => {
                 <Button as={Link} to="/add-order-in" basic color="red">
                     <Icon name="remove" /> Tagasi
                 </Button>
-                <SubmitButton form="add-product-name" />
+                <SubmitButton disabled={loading} form="add-product-name" />
             </Modal.Actions>
         </Modal>
     )
