@@ -127,6 +127,10 @@ class OrderInStore {
         this.orderIn.products.push(productDto);
         this.selectedProduct = emptyProduct();
     }
+
+    @action removeProduct = (index: number) => {
+        this.orderIn.products.splice(index, 1);
+    }
 }
 
 export default createContext(new OrderInStore());
