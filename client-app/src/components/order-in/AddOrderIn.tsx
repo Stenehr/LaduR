@@ -11,6 +11,11 @@ import TextInput from "../common/form/TextInput";
 import AddProduct from "./AddProduct";
 import BottomComponent from "../common/BottomComponent";
 import ProductTable from "./ProductTable";
+import { combineValidators, isRequired } from "revalidate";
+
+const validation = combineValidators({
+    vendorId: isRequired({ message: "Ostukoht on kohustuslik" })
+});
 
 const AddOrderIn = () => {
     const orderInStore = useContext(OrderInStore);
@@ -39,6 +44,7 @@ const AddOrderIn = () => {
             <Segment>
                 <Segment>
                     <FinalForm
+                        validate={validation}
                         initialValues={orderInStore.orderIn}
                         onSubmit={handleFormSubmit}
                         render={({ handleSubmit }) => (

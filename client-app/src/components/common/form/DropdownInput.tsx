@@ -10,7 +10,7 @@ interface IProps extends FieldRenderProps<string | number, HTMLElement>, FormFie
 
 const DropdownInput: React.FC<IProps> = ({ input, placeholder, options, width, labelText, meta: { touched, error }}) => {
     return (
-        <Form.Field>
+        <Form.Field error={touched && !!error}>
             {!!labelText && <label>{labelText}</label>}
             <Select
                 placeholder={placeholder}
@@ -22,7 +22,7 @@ const DropdownInput: React.FC<IProps> = ({ input, placeholder, options, width, l
                 options={options}
             />
             {touched && error && (
-                <Label basic color="red">
+                <Label pointing="above" basic color="red">
                     {error}
                 </Label>
             )}
