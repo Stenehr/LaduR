@@ -1,40 +1,36 @@
-import React, { useContext } from "react";
-import { Form, Button, Grid } from "semantic-ui-react";
-import { Form as FinalForm, Field, FormRenderProps } from "react-final-form";
-import TextInput from "../common/form/TextInput";
-import { observer } from "mobx-react-lite";
-import OrderInStore from "../../stores/orderInStore";
-import DropdownInput from '../common/form/DropdownInput';
-import { IDropdownItem } from '../common/form/types';
-import { IProduct } from "../../stores/orderInStore";
-import { combineValidators, isRequired, composeValidators, isNumeric } from 'revalidate';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+import { Field, Form as FinalForm } from 'react-final-form';
+import { combineValidators, composeValidators, isNumeric } from 'revalidate';
+import { Form, Grid } from 'semantic-ui-react';
+
+import OrderInStore, { IProduct } from '../../stores/orderInStore';
 import { customIsRequired, validationMessage } from '../../utils/utils';
-import { FormApi, SubmissionErrors } from "final-form";
+import DropdownInput from '../common/form/DropdownInput';
+import { SubmitButton } from '../common/form/SubmitButton';
+import TextInput from '../common/form/TextInput';
+import { FormApi } from 'final-form';
 
 const validation = combineValidators({
     productNameId: customIsRequired("Tootenimi"),
     price: composeValidators(
         customIsRequired("Hind"),
-        // isNumeric(validationMessage("Hind peab olema arv"))
-    ),
-    quantity: combineValidators(
+        isNumeric(validationMessage("Hind peab olema arv"))
+    )(),
+    quantity: composeValidators(
         customIsRequired("Kogus"),
-        // isNumeric(validationMessage("Kogus peab olema arv"))
-    )
+        isNumeric(validationMessage("Kogus peab olema arv"))
+    )()
 });
 
 const AddProduct = () => {
     const orderInStore = useContext(OrderInStore);
 
-    const handleProductSubmit = (product: IProduct, form: FormApi<IProduct>, error: any) =>  {
-        console.log(product)
-        console.log(error());
-        // console.log(form)
-        if (!error()) {
-            orderInStore.addProduct(product);
-            form.reset();
-        }        
+    const handleProductSubmit = (product: IProduct, form: FormApi<IProduct>) => {
+        orderInStore.addProduct(product);
+        setTimeout(form.reset);
     }
+        
 
     const productNamesDropdown = orderInStore.dropdownProductNames;
 
@@ -44,14 +40,14 @@ const AddProduct = () => {
                 validate={validation}
                 initialValues={orderInStore.selectedProduct}
                 onSubmit={handleProductSubmit}
-                render={({ handleSubmit }) => (
+                render={({ handleSubmit, invalid, pristine }) => (
                     <Grid>
                         <Grid.Column width={12}>
-                            <Form onSubmit={handleSubmit}>
+                            <Form id="add-product-form" onSubmit={handleSubmit}>
                                 <Field name="productNameId" placeholder="Tootenimi" labelText="Tootenimi" component={DropdownInput} width="6rem" options={productNamesDropdown} />
-                                <Field name="price" placeholder="Hind..." labelText="Hind" component={TextInput} width="6rem" inputSuffix="EUR" />
-                                <Field name="quantity" placeholder="Kogus..." labelText="Kogus" component={TextInput} width="6rem" inputSuffix="TK"/>
-                                <Button positive type="submit">Lisa toode</Button>
+                                <Field name="price" placeholder="Hind..." labelText="Hind" component={TextInput} width="9rem" inputSuffix="EUR" />
+                                <Field name="quantity" placeholder="Kogus..." labelText="Kogus" component={TextInput} width="9rem" inputSuffix="TK"/>
+                                <SubmitButton disabled={invalid || pristine} text="Lisa toode" form="add-product-form" />
                             </Form>
                         </Grid.Column>
                     </Grid>

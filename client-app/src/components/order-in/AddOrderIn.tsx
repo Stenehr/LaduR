@@ -12,9 +12,11 @@ import AddProduct from "./AddProduct";
 import BottomComponent from "../common/BottomComponent";
 import ProductTable from "./ProductTable";
 import { combineValidators, isRequired } from "revalidate";
+import { customIsRequired } from '../../utils/utils';
 
 const validation = combineValidators({
-    vendorId: isRequired({ message: "Ostukoht on kohustuslik" })
+    vendorId: customIsRequired("Ostukoht"),
+    billNumber: customIsRequired("Tseki nr")
 });
 
 const AddOrderIn = () => {
