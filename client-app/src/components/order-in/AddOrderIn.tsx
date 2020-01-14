@@ -49,7 +49,7 @@ const AddOrderIn = () => {
                         validate={validation}
                         initialValues={orderInStore.orderIn}
                         onSubmit={handleFormSubmit}
-                        render={({ handleSubmit }) => (
+                        render={({ handleSubmit, invalid, pristine }) => (
                             <Form id="order-in-form" onSubmit={handleSubmit}>
                                 <h3>Ostukohainfo</h3>
                                 <Form.Group widths="equal">
@@ -68,10 +68,17 @@ const AddOrderIn = () => {
                                         component={TextInput}
                                     />
                                 </Form.Group>
+                                <Field
+                                    name="extraInfo"
+                                    placeholder="Lisainfo..."
+                                    labelText="Lisainfo"
+                                    rows="3"
+                                    component={TextAreaInput}
+                                />
                                 <BottomComponent>
                                     <Container>
-                                        <Segment>
-                                            <Button type="submit" form="order-in-form">
+                                        <Segment style={{marginTop: "1rem"}}>
+                                            <Button disabled={invalid || pristine} type="submit" primary form="order-in-form">
                                                 Salvesta
                                             </Button>
                                         </Segment>

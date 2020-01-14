@@ -10,6 +10,7 @@ interface IOrderIn {
     vendorId: number | string | null;
     orderDate: null | string | Date;
     billNumber: null | string;
+    extraInfo: null | string;
     products: IProduct[];
 }
 
@@ -42,6 +43,7 @@ class OrderInStore {
         vendorId: null,
         orderDate: null,
         billNumber: null,
+        extraInfo: null,
         products: []
     };
 
