@@ -7,7 +7,7 @@ import { Form, Grid } from 'semantic-ui-react';
 import OrderInStore, { IProduct } from '../../stores/orderInStore';
 import { customIsRequired, validationMessage } from '../../utils/utils';
 import DropdownInput from '../common/form/DropdownInput';
-import { SubmitButton } from '../common/form/SubmitButton';
+import SubmitButton from '../common/form/SubmitButton';
 import TextInput from '../common/form/TextInput';
 import { FormApi } from 'final-form';
 

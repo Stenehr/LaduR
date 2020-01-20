@@ -13,6 +13,7 @@ import BottomComponent from "../common/BottomComponent";
 import ProductTable from "./ProductTable";
 import { combineValidators, isRequired } from "revalidate";
 import { customIsRequired } from '../../utils/utils';
+import Datepicker from "../common/form/Datepicker";
 
 const validation = combineValidators({
     vendorId: customIsRequired("Ostukoht"),
@@ -60,7 +61,12 @@ const AddOrderIn = () => {
                                         options={orderInStore.dropdownVendors}
                                         component={DropdownInput}
                                     />
-                                    <Field name="orderDate" labelText="Ostuaeg" type="date" component={TextInput} />
+                                    <Field
+                                        name="orderDate"
+                                        labelText="Ostuaeg"
+                                        component={Datepicker}
+                                        onChange={(data: any) => console.log(data)}
+                                    />
                                     <Field
                                         name="billNumber"
                                         placeholder="Tšeki nr..."

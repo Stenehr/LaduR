@@ -7,10 +7,12 @@ interface IProps {
     form: string;
 }
 
-export const SubmitButton: React.FC<IProps> = ({ text, form, disabled = false }) => {
+const SubmitButton: React.FC<IProps> = ({ text, form, disabled = false }) => {
     return (
         <Button type="submit" disabled={disabled} form={form} color="green">
             <Icon name="checkmark" /> {!!text ? text : "Lisa"}
         </Button>
     );
 };
+
+export default SubmitButton;

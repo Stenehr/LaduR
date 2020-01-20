@@ -6,6 +6,8 @@ import * as serviceWorker from "./serviceWorker";
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
 
+import "react-datepicker/dist/react-datepicker.css";
+
 export const history = createBrowserHistory();
 
 ReactDOM.render(

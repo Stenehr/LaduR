@@ -41,7 +41,7 @@ class OrderInStore {
 
     @observable orderIn: IOrderIn = {
         vendorId: null,
-        orderDate: null,
+        orderDate: new Date(),
         billNumber: null,
         extraInfo: null,
         products: []

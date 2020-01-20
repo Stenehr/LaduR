@@ -6,7 +6,7 @@ import OrderInStore from "../../stores/orderInStore";
 import { IAddProductName } from './types';
 import TextInput from '../common/form/TextInput';
 import { Link } from 'react-router-dom';
-import { SubmitButton } from '../common/form/SubmitButton';
+import SubmitButton from '../common/form/SubmitButton';
 
 const AddProductName = () => {
     const orderInStore = useContext(OrderInStore);

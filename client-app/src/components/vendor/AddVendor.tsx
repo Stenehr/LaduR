@@ -7,7 +7,7 @@ import OrderInStore from '../../stores/orderInStore';
 import TextInput from '../common/form/TextInput';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { IAddVendor } from './types';
-import { SubmitButton } from '../common/form/SubmitButton';
+import SubmitButton from '../common/form/SubmitButton';
 
 const AddVendor: React.FC<RouteComponentProps> = () => {
     const orderInStore = useContext(OrderInStore);
