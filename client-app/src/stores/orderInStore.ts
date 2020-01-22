@@ -6,11 +6,14 @@ import { IDropdownItem } from '../components/common/form/types';
 import { history } from "..";
 import { IProductName, IAddProductName } from '../components/product-name/types';
 
-interface IOrderIn {
+export interface IOrderInBase {
     vendorId: number | string | null;
-    orderDate: null | string | Date;
+    orderDate: null | Date;
     billNumber: null | string;
     extraInfo: null | string;
+}
+
+interface IOrderIn extends IOrderInBase {
     products: IProduct[];
 }
 
@@ -132,6 +135,11 @@ class OrderInStore {
 
     @action removeProduct = (index: number) => {
         this.orderIn.products.splice(index, 1);
+    }
+
+    @action addOrderIn = (orderInForm: IOrderInBase) => {
+        this.orderIn = { ...this.orderIn, ...orderInForm };
+        console.log(this.orderIn);
     }
 }
 

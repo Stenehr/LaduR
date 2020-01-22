@@ -14,10 +14,12 @@ import ProductTable from "./ProductTable";
 import { combineValidators, isRequired } from "revalidate";
 import { customIsRequired } from '../../utils/utils';
 import Datepicker from "../common/form/Datepicker";
+import { IOrderInBase } from '../../stores/orderInStore';
 
 const validation = combineValidators({
     vendorId: customIsRequired("Ostukoht"),
-    billNumber: customIsRequired("Tseki nr")
+    billNumber: customIsRequired("Tseki nr"),
+    orderDate: customIsRequired("Kuupäev")
 });
 
 const AddOrderIn = () => {
@@ -30,9 +32,8 @@ const AddOrderIn = () => {
         orderInStore.loadProductNames();
     }, [orderInStore, !vendorsLoaded, !productNamesLoaded]);
 
-    const handleFormSubmit = (values: any) => {
-        console.log("submit");
-        console.log(values);
+    const handleFormSubmit = (orderInForm: IOrderInBase) => {
+        orderInStore.addOrderIn(orderInForm);
     };
 
     return (

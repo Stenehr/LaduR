@@ -1,25 +1,27 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
-import { combineValidators, composeValidators, isNumeric } from 'revalidate';
+import { combineValidators, composeValidators, isNumeric, createValidator } from 'revalidate';
 import { Form, Grid } from 'semantic-ui-react';
 
 import OrderInStore, { IProduct } from '../../stores/orderInStore';
-import { customIsRequired, validationMessage } from '../../utils/utils';
+import { customIsRequired, validationMessage, decimalValidator } from '../../utils/utils';
 import DropdownInput from '../common/form/DropdownInput';
 import SubmitButton from '../common/form/SubmitButton';
 import TextInput from '../common/form/TextInput';
 import { FormApi } from 'final-form';
 
+
+
 const validation = combineValidators({
     productNameId: customIsRequired("Tootenimi"),
     price: composeValidators(
         customIsRequired("Hind"),
-        isNumeric(validationMessage("Hind peab olema arv"))
+        decimalValidator("Hind")
     )(),
     quantity: composeValidators(
         customIsRequired("Kogus"),
-        isNumeric(validationMessage("Kogus peab olema arv"))
+        isNumeric(validationMessage("Kogus peab olema täisarv"))
     )()
 });
 
