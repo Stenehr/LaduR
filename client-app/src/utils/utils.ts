@@ -8,20 +8,10 @@ export function validationMessage(text: string): { message: string } {
     return { message: text };
 }
 
-export function dateToString(value: string | Date | null | undefined) {
-    let dateString = "";
-
-    if (value === undefined) {
-        return value;
-    }
-
-    if (value === null) {
-        return undefined;
-    }
-
+export function inputToDate(value: string | Date | null | undefined): Date | null | undefined {
     if (typeof value === "string") {
-        value = new Date(value);
+        return new Date(value);
     }
 
-    return value.toISOString();
+    return value;
 }
