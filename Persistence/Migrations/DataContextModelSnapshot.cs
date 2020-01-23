@@ -16,6 +16,55 @@ namespace Persistence.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0");
 
+            modelBuilder.Entity("Domain.OrderDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("OrderInId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderInId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("Domain.OrderIn", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("BillNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ExtraInfo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("VendorId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("OrdersIn");
+                });
+
             modelBuilder.Entity("Domain.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -98,6 +147,24 @@ namespace Persistence.Migrations
                             Address = "Tuuliku tee 2",
                             Name = "Espak"
                         });
+                });
+
+            modelBuilder.Entity("Domain.OrderDetails", b =>
+                {
+                    b.HasOne("Domain.OrderIn", null)
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderInId");
+
+                    b.HasOne("Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("Domain.OrderIn", b =>
+                {
+                    b.HasOne("Domain.Vendor", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("VendorId");
                 });
 
             modelBuilder.Entity("Domain.Product", b =>

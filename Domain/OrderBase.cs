@@ -2,8 +2,15 @@ using System;
 
 namespace Domain
 {
-    public class OrderBase : Entity
+    public abstract class OrderBase : Entity
     {
-        public DateTime OrderDate { get; set;} 
+        public DateTime OrderDate { get; set;}
+        public string ExtraInfo { get; set; }
+
+        public void Update(DateTime orderDate, string extraInfo)
+        {
+            OrderDate = orderDate;
+            ExtraInfo = extraInfo;
+        }
     }
 }

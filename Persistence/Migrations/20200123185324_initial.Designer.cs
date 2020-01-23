@@ -9,14 +9,63 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191217193904_AddProductEntityV2")]
-    partial class AddProductEntityV2
+    [Migration("20200123185324_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0");
+
+            modelBuilder.Entity("Domain.OrderDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("OrderInId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderInId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("Domain.OrderIn", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("BillNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ExtraInfo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("VendorId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("OrdersIn");
+                });
 
             modelBuilder.Entity("Domain.Product", b =>
                 {
@@ -100,6 +149,24 @@ namespace Persistence.Migrations
                             Address = "Tuuliku tee 2",
                             Name = "Espak"
                         });
+                });
+
+            modelBuilder.Entity("Domain.OrderDetails", b =>
+                {
+                    b.HasOne("Domain.OrderIn", null)
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderInId");
+
+                    b.HasOne("Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("Domain.OrderIn", b =>
+                {
+                    b.HasOne("Domain.Vendor", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("VendorId");
                 });
 
             modelBuilder.Entity("Domain.Product", b =>
