@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Domain.DataExchange;
 
 namespace Domain
 {
@@ -9,11 +10,11 @@ namespace Domain
         public string BillNumber { get; set; }
         public IList<OrderDetails> OrderDetails { get; protected set; } = new List<OrderDetails>();
 
-        public void Update(Vendor vendor, string billNumber, DateTime orderDate, string extraInfo)
+        public void Update(IOrderInBase orderInBase)
         {
-            Vendor = vendor;
-            BillNumber = billNumber;
-            base.Update(orderDate, extraInfo);
+            Vendor = orderInBase.Vendor;
+            BillNumber = orderInBase.BillNumber;
+            base.Update(orderInBase.OrderDate, orderInBase.ExtraInfo);
         }
     }
 }

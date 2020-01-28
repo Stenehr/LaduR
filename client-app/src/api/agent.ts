@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { IAddVendor, IVendor } from '../components/vendor/types';
 import { IAddProductName, IProductName } from '../components/product-name/types';
+import { IOrderIn } from '../stores/orderInStore';
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -26,7 +27,12 @@ const ProductNames = {
     delete: (id: number) => requests.delete(`/productName/${id}`)
 }
 
+const OrderIn = {
+    create: (body: IOrderIn): Promise<any> => requests.post("/orderIn", body)
+}
+
 export default {
     Vendors,
-    ProductNames
+    ProductNames,
+    OrderIn
 }

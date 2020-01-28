@@ -1,11 +1,12 @@
-﻿using AutoMapper;
-using MediatR;
-using Persistence;
-using Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using Domain.DataExchange;
+using MediatR;
+using Persistence;
 
 namespace Application.OrderIn
 {
@@ -13,26 +14,39 @@ namespace Application.OrderIn
     {
         public class Handler : IRequestHandler<Command, OrderInDto>
         {
-            private readonly OrderInService _orderInService;
             private readonly IMapper _mapper;
+            private readonly DataContext _dataContext;
+            private readonly IOrderInService _orderInService;
 
-            public Handler(OrderInService orderInService, IMapper mapper)
+            public Handler(IMapper mapper, DataContext dataContext, IOrderInService orderInService)
             {
-                _orderInService = orderInService;
                 _mapper = mapper;
+                _dataContext = dataContext;
+                _orderInService = orderInService;
             }
 
-            public async Task<OrderInDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<OrderInDto> Handle(Command command, CancellationToken cancellationToken)
             {
-                await _orderInService.Create(request);
+                command.Vendor = _dataContext.Vendors.Find(command.VendorId);
 
-                return new OrderInDto();
+                var orderIn = new Domain.OrderIn();
+                orderIn.Update(command);
+
+                _orderInService.CreateOrderDetails(orderIn, command.Products);
+
+                _dataContext.OrdersIn.Add(orderIn);
+                await _dataContext.SaveChangesAsync();
+
+                return _mapper.Map<OrderInDto>(orderIn);
             }
         }
 
-        public class Command : IRequest<OrderInDto>
+        public class Command : IRequest<OrderInDto>, IOrderInBase
         {
             public string BillNumber { get; set; }
+
+            [JsonIgnore]
+            public Domain.Vendor Vendor { get; set; }
             public int VendorId { get; set; }
             public DateTime OrderDate { get; set; }
             public string ExtraInfo { get; set; }

@@ -5,28 +5,20 @@ using Persistence;
 
 namespace Application.OrderIn
 {
-    public class OrderInService
+    public interface IOrderInService
+    {
+        void CreateOrderDetails(Domain.OrderIn orderIn, IList<ProductDto> productDtos);
+    }
+
+    public class OrderInService : IOrderInService
     {
         private readonly DataContext _context;
         public OrderInService(DataContext context)
         {
             this._context = context;
-
         }
 
-        public async Task<Domain.OrderIn> Create(Add.Command command)
-        {
-            var vendor = _context.Vendors.Find(command.VendorId);
-            var orderIn = new Domain.OrderIn();
-            orderIn.Update(vendor, command.BillNumber, command.OrderDate, command.ExtraInfo);
-            CreateOrderDetails(orderIn, command.Products);
-
-            _context.OrdersIn.Add(orderIn);
-            await _context.SaveChangesAsync();
-            return orderIn;
-        }
-
-        private void CreateOrderDetails(Domain.OrderIn orderIn, IList<ProductDto> productDtos) 
+        public void CreateOrderDetails(Domain.OrderIn orderIn, IList<ProductDto> productDtos) 
         {
             var productNameIds = productDtos.Select(x => x.ProductNameId).Distinct().ToList();
             var productNames = _context.ProductNames.Where(x => productNameIds.Contains(x.Id)).ToList();

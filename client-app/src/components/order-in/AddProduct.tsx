@@ -47,8 +47,8 @@ const AddProduct = () => {
                         <Grid.Column width={12}>
                             <Form id="add-product-form" onSubmit={handleSubmit}>
                                 <Field name="productNameId" placeholder="Tootenimi" labelText="Tootenimi" component={DropdownInput} width="6rem" options={productNamesDropdown} />
-                                <Field name="price" placeholder="Hind..." labelText="Hind" component={TextInput} width="9rem" inputSuffix="EUR" />
-                                <Field name="quantity" placeholder="Kogus..." labelText="Kogus" component={TextInput} width="9rem" inputSuffix="TK"/>
+                                <Field name="price" type="number" placeholder="Hind..." labelText="Hind" component={TextInput} width="9rem" inputSuffix="EUR" />
+                                <Field name="quantity" type="number" placeholder="Kogus..." labelText="Kogus" component={TextInput} width="9rem" inputSuffix="TK"/>
                                 <SubmitButton disabled={invalid || pristine} text="Lisa toode" form="add-product-form" />
                             </Form>
                         </Grid.Column>

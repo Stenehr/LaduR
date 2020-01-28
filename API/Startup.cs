@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
 using AutoMapper;
+using Application.OrderIn;
 
 namespace API
 {
@@ -41,6 +42,7 @@ namespace API
             });
             services.AddMediatR(typeof(Edit.Command).Assembly);
             services.AddAutoMapper(typeof(Edit.Command).Assembly);
+            services.AddScoped<IOrderInService, OrderInService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

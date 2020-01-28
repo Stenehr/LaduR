@@ -1,6 +1,6 @@
 namespace Domain
 {
-    public class ProductName : Entity
+    public class ProductName : Classifier
     {
         public ProductName()
         {}
@@ -8,7 +8,5 @@ namespace Domain
         {
             Name = name;
         }
-
-        public string Name { get; set; }
     }
 }

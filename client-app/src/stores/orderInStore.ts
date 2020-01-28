@@ -13,7 +13,7 @@ export interface IOrderInBase {
     extraInfo: null | string;
 }
 
-interface IOrderIn extends IOrderInBase {
+export interface IOrderIn extends IOrderInBase {
     products: IProduct[];
 }
 
@@ -51,6 +51,8 @@ class OrderInStore {
     };
 
     @observable selectedProduct: IProduct = emptyProduct();
+
+    @observable orderInSavingLoading = false;
 
     @computed get dropdownVendors(): IDropdownItem[] {
         return Array.from(this.vendors).map(vendor => ({
@@ -129,6 +131,8 @@ class OrderInStore {
     }
 
     @action addProduct = (productDto: IProduct) => {
+        productDto.price = Number(productDto.price);
+        productDto.quantity = Number(productDto.quantity);
         this.orderIn.products.push(productDto);
         this.selectedProduct = emptyProduct();
     }
@@ -137,9 +141,16 @@ class OrderInStore {
         this.orderIn.products.splice(index, 1);
     }
 
-    @action addOrderIn = (orderInForm: IOrderInBase) => {
+    @action addOrderIn = async (orderInForm: IOrderInBase) => {
+        this.orderInSavingLoading = true;
         this.orderIn = { ...this.orderIn, ...orderInForm };
         console.log(this.orderIn);
+
+        try {
+            const orderIn = await agent.OrderIn.create(this.orderIn);
+        } finally {
+            this.orderInSavingLoading = false;
+        }
     }
 }
 
