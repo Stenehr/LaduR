@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.DataExchange;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -51,6 +52,16 @@ namespace Application.OrderIn
             public DateTime OrderDate { get; set; }
             public string ExtraInfo { get; set; }
             public IList<ProductDto> Products { get; set; }
+        }
+
+        public class OrderInAddValidator : AbstractValidator<Command> 
+        {
+            public OrderInAddValidator()
+            {
+                RuleFor(x => x.BillNumber).NotEmpty().WithMessage("Tsekinumber on kohustuslik");
+                RuleFor(x => x.VendorId).NotNull().WithMessage("Ostukoht on kohustuslik");
+                RuleFor(x => x.Products).NotEmpty().WithMessage("Ostuga ei ole lisatud tooteid");
+            }
         }
     }
 }

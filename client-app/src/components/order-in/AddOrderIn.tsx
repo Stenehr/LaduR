@@ -15,6 +15,8 @@ import { combineValidators, isRequired } from "revalidate";
 import { customIsRequired } from "../../utils/utils";
 import Datepicker from "../common/form/Datepicker";
 import { IOrderInBase } from "../../stores/orderInStore";
+import { ValidationErrors } from "final-form";
+import { toast } from "react-toastify";
 
 const validation = combineValidators({
     vendorId: customIsRequired("Ostukoht"),
@@ -33,6 +35,10 @@ const AddOrderIn = () => {
     }, [orderInStore, !vendorsLoaded, !productNamesLoaded]);
 
     const handleFormSubmit = (orderInForm: IOrderInBase) => {
+        if ((orderInStore.orderIn.products || []).length < 1) {
+            toast.error("Sisseostul puuduvad tooted");
+            return;
+        }
         orderInStore.addOrderIn(orderInForm);
     };
 
@@ -45,7 +51,7 @@ const AddOrderIn = () => {
             <Button as={Link} to="/add-product-name" color="twitter">
                 Lisa tootenimi
             </Button>
-            <Segment raised>
+            <Segment raised loading={orderInStore.orderInSavingLoading}>
                 <FinalForm
                     validate={validation}
                     initialValues={orderInStore.orderIn}

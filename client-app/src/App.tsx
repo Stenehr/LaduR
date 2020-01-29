@@ -8,11 +8,13 @@ import HomePage from './components/common/HomePage';
 import AddOrderIn from './components/order-in/AddOrderIn';
 import AddVendor from './components/vendor/AddVendor';
 import AddProductName from './components/product-name/AddProductName';
+import { ToastContainer } from "react-toastify";
 
 const App: React.FC = () => {
   return (
     <Fragment>
       <NavBar/>
+      <ToastContainer position="top-right" />
       <Container>
         <Route path="/" exact component={HomePage} />
         <Route path="/add-order-in" exact component={AddOrderIn} />

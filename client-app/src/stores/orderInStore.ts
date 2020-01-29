@@ -5,6 +5,7 @@ import agent from "../api/agent";
 import { IDropdownItem } from '../components/common/form/types';
 import { history } from "..";
 import { IProductName, IAddProductName } from '../components/product-name/types';
+import { toast } from "react-toastify";
 
 export interface IOrderInBase {
     vendorId: number | string | null;
@@ -148,6 +149,7 @@ class OrderInStore {
 
         try {
             const orderIn = await agent.OrderIn.create(this.orderIn);
+            toast.success("Salvestatud");
         } finally {
             this.orderInSavingLoading = false;
         }

@@ -32,7 +32,6 @@ const AddProduct = () => {
         orderInStore.addProduct(product);
         setTimeout(form.reset);
     }
-        
 
     const productNamesDropdown = orderInStore.dropdownProductNames;
 
