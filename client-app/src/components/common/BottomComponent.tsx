@@ -11,10 +11,6 @@ export default class BottomComponent extends React.Component<any, IState> {
     state = {
         el: document.createElement("div")
     }
-    
-    constructor(props: any) {
-        super(props);
-    }
 
     componentDidMount() {
         bottomRoot!.appendChild(this.state.el);

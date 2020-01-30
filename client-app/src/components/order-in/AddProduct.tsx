@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
-import { combineValidators, composeValidators, isNumeric, createValidator } from 'revalidate';
+import { combineValidators, composeValidators, isNumeric } from 'revalidate';
 import { Form, Grid } from 'semantic-ui-react';
 
 import OrderInStore, { IProduct } from '../../stores/orderInStore';

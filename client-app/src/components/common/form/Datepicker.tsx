@@ -1,4 +1,4 @@
-import React, { RefObject } from "react";
+import React from "react";
 import { FieldRenderProps } from "react-final-form";
 import { FormFieldProps, Form, Icon } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
