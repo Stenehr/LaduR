@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Shared;
@@ -24,30 +23,21 @@ namespace Application.OrderIn
 
             public Task<PagedList<OrderInDto, Domain.OrderIn>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var criteria = BuildCriteria(request);
-
-                var ordersIn = _context.OrdersIn.Where(criteria);
-
-                return Task.FromResult(new PagedList<OrderInDto, Domain.OrderIn>(ordersIn, request, _mapper));
-            }
-
-            private static Expression<Func<Domain.OrderIn, bool>> BuildCriteria(Query request)
-            {
-                var criteria = PredicateBuilder.True<Domain.OrderIn>();
+                var ordersIn = _context.OrdersIn.AsQueryable();
 
                 if (request.VendorId != null)
-                    criteria = criteria.And(x => x.Vendor.Id == request.VendorId);
+                    ordersIn = ordersIn.Where(x => x.Vendor.Id == request.VendorId);
 
                 if (!string.IsNullOrEmpty(request.BillNumber))
-                    criteria = criteria.And(x => x.BillNumber.Contains(request.BillNumber));
+                    ordersIn = ordersIn.Where(x => x.BillNumber.Contains(request.BillNumber));
 
                 if (request.StartDate != null)
-                    criteria = criteria.And(x => x.OrderDate >= request.StartDate);
+                    ordersIn = ordersIn.Where(x => x.OrderDate >= request.StartDate);
 
                 if (request.EndDate != null)
-                    criteria = criteria.And(x => x.OrderDate <= request.EndDate);
+                    ordersIn = ordersIn.Where(x => x.OrderDate <= request.EndDate);
 
-                return criteria;
+                return Task.FromResult(new PagedList<OrderInDto, Domain.OrderIn>(ordersIn, request, _mapper));
             }
         }
 
