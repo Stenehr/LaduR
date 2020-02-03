@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Shared;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.OrderIn
@@ -23,7 +24,10 @@ namespace Application.OrderIn
 
             public Task<PagedList<OrderInDto, Domain.OrderIn>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var ordersIn = _context.OrdersIn.AsQueryable();
+                var ordersIn = _context.OrdersIn
+                    .Include(x => x.Vendor)
+                    .Include(x => x.OrderDetails).ThenInclude(od => od.Product)
+                    .AsQueryable();
 
                 if (request.VendorId != null)
                     ordersIn = ordersIn.Where(x => x.Vendor.Id == request.VendorId);
