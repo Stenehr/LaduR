@@ -21,7 +21,7 @@ const Vendors = {
 }
 
 const ProductNames = {
-    list: (): Promise<IProductName> => requests.get("/productName"),
+    list: (): Promise<IProductName[]> => requests.get("/productName"),
     details: (id: number): Promise<IProductName[]> => requests.get(`/productName/${id}`),
     create: (body: IAddProductName): Promise<IProductName> => requests.post("/productName", body),
     update: (body: IAddProductName): Promise<IProductName> => requests.put(`/productName/${body.id}`, body),
@@ -29,7 +29,7 @@ const ProductNames = {
 }
 
 const OrderIn = {
-    list: (): Promise<IOrderInListItem> => requests.get("/orderIn"),
+    list: (): Promise<IOrderInListItem[]> => requests.get("/orderIn"),
     create: (body: IOrderIn): Promise<any> => requests.post("/orderIn", body)
 }
 

@@ -9,6 +9,7 @@ import AddOrderIn from './components/order-in/AddOrderIn';
 import AddVendor from './components/vendor/AddVendor';
 import AddProductName from './components/product-name/AddProductName';
 import { ToastContainer } from "react-toastify";
+import { OrdersIn } from './components/order-in/OrdersIn';
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
       <ToastContainer position="top-right" />
       <Container>
         <Route path="/" exact component={HomePage} />
+        <Route path="/orders-in" exact component={OrdersIn} />
         <Route path="/add-order-in" exact component={AddOrderIn} />
         <Route path="/add-vendor" exact component={AddVendor} />
         <Route path="/add-product-name" exact component={AddProductName} />
