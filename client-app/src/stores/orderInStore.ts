@@ -6,6 +6,7 @@ import { IDropdownItem } from '../components/common/form/types';
 import { history } from "..";
 import { IProductName, IAddProductName } from '../components/product-name/types';
 import { toast } from "react-toastify";
+import { IOrderInListItem } from '../components/order-in/types';
 
 export interface IOrderInBase {
     vendorId: number | string | null;
@@ -33,6 +34,9 @@ function emptyProduct(): IProduct {
 }
 
 class OrderInStore {
+    @observable ordersInList = new Array<IOrderInListItem>();
+    @observable loadingOrdersIn = false;
+
     @observable loadingInitial = false;
 
     @observable loadingVendorAdding = false;
@@ -73,6 +77,19 @@ class OrderInStore {
 
     @action getProductName = (productNameId: number) => this.productNames.filter((name) => name.id === productNameId)[0].name;
 
+    @action loadOrdersIn = async () => {
+        this.loadingOrdersIn = true;
+
+        try {
+            const ordersIn = await agent.OrderIn.list();
+            runInAction(() => {
+                this.ordersInList = ordersIn;
+            })
+        } finally {
+            runInAction(() => this.loadingOrdersIn = false);
+        }
+    }
+
     @action loadVendors = async () => {
         this.loadingInitial = true;
 
@@ -83,7 +100,7 @@ class OrderInStore {
                 this.vendorsLoaded = true;
             });
         } finally {
-            runInAction(() => (this.loadingInitial = false));
+            runInAction(() => this.loadingInitial = false);
         }
     };
 
