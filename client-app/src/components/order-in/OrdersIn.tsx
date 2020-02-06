@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import DataTable, { IDataTableHeaderItem } from "../common/DataTable";
+import { observer } from 'mobx-react-lite';
+import OrderInStore from "../../stores/orderInStore";
 
-export const OrdersIn = () => {
+const OrdersIn = () => {
+    const orderInStore = useContext(OrderInStore);
+
+    useEffect(() => {
+        orderInStore.loadOrdersIn();
+    }, [orderInStore, !orderInStore.ordersInListLoaded])
+
     const tableHeader = new Array<IDataTableHeaderItem>(
         { header: "Ostukoht", field: "vendor" },
         { header: "Tseki nr", field: "billNumber" },
@@ -17,7 +25,7 @@ export const OrdersIn = () => {
     return (
         <div>
             <DataTable
-                items={items}
+                items={orderInStore.ordersInList}
                 pageNum={1}
                 totalPages={2}
                 header={tableHeader}
@@ -25,3 +33,5 @@ export const OrdersIn = () => {
         </div>
     )
 }
+
+export default observer(OrdersIn);

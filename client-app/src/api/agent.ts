@@ -1,7 +1,7 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { IAddVendor, IVendor } from '../components/vendor/types';
 import { IAddProductName, IProductName } from '../components/product-name/types';
-import { IOrderIn } from '../stores/orderInStore';
+import { IOrderIn, IOrderInFilter } from '../stores/orderInStore';
 import { IOrderInListItem } from '../components/order-in/types';
 
 axios.defaults.baseURL = "http://localhost:5000/api";
@@ -9,7 +9,7 @@ axios.defaults.baseURL = "http://localhost:5000/api";
 const responseBody = (response: AxiosResponse) => response.data;
 
 const requests = {
-    get: (url: string) => axios.get(url).then(responseBody),
+    get: (url: string, config?: AxiosRequestConfig ) => axios.get(url, config).then(responseBody),
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
     put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
     delete: (url: string) => axios.delete(url).then(responseBody)
@@ -29,7 +29,7 @@ const ProductNames = {
 }
 
 const OrderIn = {
-    list: (): Promise<IOrderInListItem[]> => requests.get("/orderIn"),
+    list: (query: IOrderInFilter): Promise<IOrderInListItem[]> => requests.get("/orderIn", { data: { query }}),
     create: (body: IOrderIn): Promise<any> => requests.post("/orderIn", body)
 }
 

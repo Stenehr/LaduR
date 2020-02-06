@@ -33,9 +33,25 @@ function emptyProduct(): IProduct {
     }
 }
 
+export interface IOrderInFilter {
+    vendorId: number | null;
+    billNumber: string | null;
+    startDate: Date | null;
+    endDate: Date | null;
+    pageNum: number | null;    
+}
+
 class OrderInStore {
     @observable ordersInList = new Array<IOrderInListItem>();
     @observable loadingOrdersIn = false;
+    @observable ordersInListLoaded = false;
+    @observable ordersInListFilter: IOrderInFilter = {
+        vendorId: null,
+        billNumber: null,
+        startDate: null,
+        endDate: null,
+        pageNum: 1
+    }
 
     @observable loadingInitial = false;
 
@@ -81,14 +97,17 @@ class OrderInStore {
         this.loadingOrdersIn = true;
 
         try {
-            const ordersIn = await agent.OrderIn.list();
+            const ordersIn = await agent.OrderIn.list(this.ordersInListFilter);
             runInAction(() => {
                 this.ordersInList = ordersIn;
+                this.ordersInListLoaded = true;
             })
         } finally {
             runInAction(() => this.loadingOrdersIn = false);
         }
     }
+
+    @action setOrderInListFilter = (filter: IOrderInFilter) => this.ordersInListFilter = filter;
 
     @action loadVendors = async () => {
         this.loadingInitial = true;

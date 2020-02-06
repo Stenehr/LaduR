@@ -8,8 +8,8 @@ import HomePage from './components/common/HomePage';
 import AddOrderIn from './components/order-in/AddOrderIn';
 import AddVendor from './components/vendor/AddVendor';
 import AddProductName from './components/product-name/AddProductName';
+import OrdersIn from './components/order-in/OrdersIn';
 import { ToastContainer } from "react-toastify";
-import { OrdersIn } from './components/order-in/OrdersIn';
 
 const App: React.FC = () => {
   return (
