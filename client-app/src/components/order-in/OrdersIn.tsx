@@ -21,6 +21,7 @@ const OrdersIn = () => {
     return (
         <div>
             <DataTable
+                toggler
                 source={orderInStore.ordersInList}
                 header={tableHeader}
             />      

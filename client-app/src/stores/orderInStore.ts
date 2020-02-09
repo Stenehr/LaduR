@@ -101,8 +101,6 @@ class OrderInStore {
             const ordersIn = await agent.OrderIn.list(this.ordersInListFilter);
             runInAction(() => {
                 this.ordersInList = ordersIn;
-                console.log(this.ordersInList);
-
                 this.ordersInListLoaded = true;
             })
         } finally {
