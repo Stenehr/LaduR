@@ -17,7 +17,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedList<OrderInDto, Domain.OrderIn>>> Get(List.Query query) => await _mediator.Send(query);
+        public async Task<ActionResult<PagedList<OrderInDto, Domain.OrderIn>>> Get([FromRoute]List.Query query) => await _mediator.Send(query);
 
 
         [HttpPost]

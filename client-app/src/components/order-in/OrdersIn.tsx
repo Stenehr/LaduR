@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import DataTable, { IDataTableHeaderItem } from "../common/DataTable";
 import { observer } from 'mobx-react-lite';
 import OrderInStore from "../../stores/orderInStore";
+import { IOrderInListItem } from './types';
 
 const OrdersIn = () => {
     const orderInStore = useContext(OrderInStore);
@@ -10,24 +11,17 @@ const OrdersIn = () => {
         orderInStore.loadOrdersIn();
     }, [orderInStore, !orderInStore.ordersInListLoaded])
 
-    const tableHeader = new Array<IDataTableHeaderItem>(
-        { header: "Ostukoht", field: "vendor" },
+    const tableHeader = new Array<IDataTableHeaderItem<IOrderInListItem>>(
+        { header: "Ostukoht", field: "vendor", format: (x) => <span>{x.vendor.name} - {x.vendor.address}</span> },
         { header: "Tseki nr", field: "billNumber" },
         { header: "Ostu aeg", field: "orderDate" },
         { header: "Lisainfo", field: "extraInfo" }
     );
 
-    const items = new Array<any>(
-        { vendor: "kodukoht", extraInfo: "lisainf", billNumber: "AA222", orderDate: "12.01.2022" },
-        { orderDate: "12.01.1988", vendor: "kodukoht2", extraInfo: "lisainf2", billNumber: "AA222" }
-    )
-
     return (
         <div>
             <DataTable
-                items={orderInStore.ordersInList}
-                pageNum={1}
-                totalPages={2}
+                source={orderInStore.ordersInList}
                 header={tableHeader}
             />      
         </div>

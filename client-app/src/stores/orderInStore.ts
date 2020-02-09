@@ -7,6 +7,7 @@ import { history } from "..";
 import { IProductName, IAddProductName } from '../components/product-name/types';
 import { toast } from "react-toastify";
 import { IOrderInListItem } from '../components/order-in/types';
+import { PagedList } from '../components/common/types';
 
 export interface IOrderInBase {
     vendorId: number | string | null;
@@ -42,7 +43,7 @@ export interface IOrderInFilter {
 }
 
 class OrderInStore {
-    @observable ordersInList = new Array<IOrderInListItem>();
+    @observable ordersInList = new PagedList<IOrderInListItem>();
     @observable loadingOrdersIn = false;
     @observable ordersInListLoaded = false;
     @observable ordersInListFilter: IOrderInFilter = {
@@ -100,6 +101,8 @@ class OrderInStore {
             const ordersIn = await agent.OrderIn.list(this.ordersInListFilter);
             runInAction(() => {
                 this.ordersInList = ordersIn;
+                console.log(this.ordersInList);
+
                 this.ordersInListLoaded = true;
             })
         } finally {

@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Table } from 'semantic-ui-react'
+import { PagedList } from './types';
 
-interface IProps {
-    items: any[];
-    pageNum: number;
-    totalPages: number;
-    header: IDataTableHeaderItem[]
+interface IProps<T> {
+    source: PagedList<T>;
+    header: IDataTableHeaderItem<T>[]
 }
 
-export interface IDataTableHeaderItem {
+export interface IDataTableHeaderItem<T> {
     header: string;
     field: string;
+    format?: (item: T) => ReactNode;
 }
 
-const DataTable: React.FC<IProps> = ({ items, pageNum, totalPages, header }) => {
+const DataTable: React.FC<IProps<any>> = ({ source, header }) => {
+
+    const renderTd = (item: any, headerItem: IDataTableHeaderItem<any>) =>
+        <Table.Cell key={headerItem.field}>{headerItem.format ? headerItem.format(item) : item[headerItem.field]}</Table.Cell>
 
     return (
         <div>
@@ -26,10 +29,10 @@ const DataTable: React.FC<IProps> = ({ items, pageNum, totalPages, header }) => 
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {items.map((item, index) => (
+                    {source.items.map((item, index) => (
                         <Table.Row key={index}>
-                            {header.map((headerItem) => (
-                                <Table.Cell>{item[headerItem.field]}</Table.Cell>
+                            {header.map((headerItem, index) => (
+                                renderTd(item, headerItem)
                             ))}
                         </Table.Row>
                     ))}
