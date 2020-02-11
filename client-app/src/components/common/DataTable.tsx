@@ -1,25 +1,45 @@
+import moment from "moment";
 import React, { ReactNode, useState, Fragment } from 'react'
 import { Table, Icon } from 'semantic-ui-react';
 import { PagedList } from './types';
 
 interface IProps<T> {
-    toggler?: boolean; 
-    source: PagedList<T>;
-    header: IDataTableHeaderItem<T>[]
+    rowContent?: (item: T) => ReactNode;
+    source: PagedList<T> | T[];
+    header: IDataTableHeaderItem<T>[];
+    color?: "red" | "green" | "blue";
 }
 
 export interface IDataTableHeaderItem<T> {
     header: string;
     field: string;
+    type?: "date";
     format?: (item: T) => ReactNode;
 }
 
-const DataTable: React.FC<IProps<any>> = ({ toggler, source, header }) => {
+const DataTable: React.FC<IProps<any>> = ({ color, rowContent, source, header }) => {
 
     const [openedStateDetails, setOpenCloseDetails] = useState(new Array<number>());
 
-    const renderTd = (item: any, headerItem: IDataTableHeaderItem<any>) =>
-        <Table.Cell key={headerItem.field}>{headerItem.format ? headerItem.format(item) : item[headerItem.field]}</Table.Cell>
+    const renderTd = (item: any, headerItem: IDataTableHeaderItem<any>) => {
+
+        let fieldValue = null;
+
+        if (headerItem.format)
+            fieldValue = headerItem.format(item);
+        else if (headerItem.type) {
+            switch(headerItem.type) {
+                case "date":
+                    fieldValue = moment(item[headerItem.field]).format("DD.MM.YYYY");
+                    break;
+                default:
+                    fieldValue = item[headerItem.field];
+            }
+        } else
+            fieldValue = item[headerItem.field];
+
+        return <Table.Cell key={headerItem.field}>{fieldValue}</Table.Cell>
+    }
 
     const openCloseDetails = (item: any) => {
         const openedDetails = [...openedStateDetails];
@@ -37,20 +57,20 @@ const DataTable: React.FC<IProps<any>> = ({ toggler, source, header }) => {
 
     return (
         <div>
-            <Table celled>
+            <Table celled color={color}>
                 <Table.Header>
                     <Table.Row>
-                        {toggler && <Table.HeaderCell style={{width: "10px"}}></Table.HeaderCell>}
+                        {rowContent && <Table.HeaderCell style={{width: "10px"}}></Table.HeaderCell>}
                         {header.map((headerItem, index) => (
                             <Table.HeaderCell key={index}>{headerItem.header}</Table.HeaderCell>
                         ))}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {source.items.map((item, index) => (
+                    {(Array.isArray(source) ? source : source.items).map((item, index) => (
                         <Fragment key={index}>
-                            <Table.Row>
-                                {toggler && 
+                            <Table.Row positive={isOpened(item)}>
+                                {rowContent && 
                                     <Table.Cell>
                                         <Icon onClick={() => openCloseDetails(item)} link name={(isOpened(item) ? "minus square" : "plus square")} />
                                     </Table.Cell>}
@@ -60,8 +80,8 @@ const DataTable: React.FC<IProps<any>> = ({ toggler, source, header }) => {
                             </Table.Row>
                             {isOpened(item) && 
                                 <Table.Row>
-                                    <Table.Cell positive colSpan={toggler ? header.length + 1 : header.length}>
-                                    TEST
+                                    <Table.Cell positive colSpan={header.length + 1}>
+                                        {rowContent && rowContent(item)}
                                     </Table.Cell>
                                 </Table.Row>
                             }

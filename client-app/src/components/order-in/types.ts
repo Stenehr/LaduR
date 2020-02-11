@@ -10,7 +10,7 @@ export interface IOrderInListItem {
     orderDetails: IOrderDetailsListItem[];
 }
 
-interface IOrderDetailsListItem {
+export interface IOrderDetailsListItem {
     id: number;
     productId: number;
     productName: IProductName;

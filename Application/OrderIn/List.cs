@@ -26,7 +26,7 @@ namespace Application.OrderIn
             {
                 var ordersIn = _context.OrdersIn
                     .Include(x => x.Vendor)
-                    .Include(x => x.OrderDetails).ThenInclude(od => od.Product)
+                    .Include(x => x.OrderDetails).ThenInclude(od => od.Product).ThenInclude(p => p.ProductName)
                     .AsQueryable();
 
                 if (request.VendorId != null)

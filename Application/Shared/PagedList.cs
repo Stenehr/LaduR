@@ -9,7 +9,7 @@ namespace Application.Shared
     public class PagedList<ItemType, DomainType> where ItemType : class
                                                  where DomainType : Entity
     {
-        private const int PAGESIZE = 2;
+        private const int PAGESIZE = 10;
         public List<ItemType> Items { get; set; } = new List<ItemType>();
         public int PageNum { get; set; }
         public int TotalItems { get; set; }
