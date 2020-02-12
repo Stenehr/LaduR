@@ -3,6 +3,7 @@ import DataTable, { IDataTableHeaderItem } from "../common/DataTable";
 import { observer } from 'mobx-react-lite';
 import OrderInStore from "../../stores/orderInStore";
 import { IOrderInListItem, IOrderDetailsListItem } from './types';
+import { Icon } from 'semantic-ui-react';
 
 const OrdersIn = () => {
     const orderInStore = useContext(OrderInStore);
@@ -11,11 +12,21 @@ const OrdersIn = () => {
         orderInStore.loadOrdersIn();
     }, [orderInStore, !orderInStore.ordersInListLoaded])
 
+    const renderActivites = (item: IOrderInListItem) => {
+        return (
+            <div>
+                <Icon onClick={() => console.log(`delete ${item.id}`)} color="red" name="delete" link />
+                <Icon onClick={() => console.log(`change ${item.id}`)} color="orange" name="pencil alternate" link />
+            </div>
+        )
+    }
+
     const tableHeader = new Array<IDataTableHeaderItem<IOrderInListItem>>(
         { header: "Ostukoht", field: "vendor", format: (x) => <span>{x.vendor.name} - {x.vendor.address}</span> },
         { header: "Tseki nr", field: "billNumber" },
         { header: "Ostu aeg", field: "orderDate", type: "date" },
-        { header: "Lisainfo", field: "extraInfo" }
+        { header: "Lisainfo", field: "extraInfo" },
+        { header: "Tegevused", field: "tegevused", format: renderActivites, width: "20px" }
     );
 
     const renderRowContent = (item: IOrderInListItem) => {
