@@ -16,30 +16,6 @@ namespace Persistence.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0");
 
-            modelBuilder.Entity("Domain.OrderDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("OrderInId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderInId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderDetails");
-                });
-
             modelBuilder.Entity("Domain.OrderIn", b =>
                 {
                     b.Property<int>("Id")
@@ -63,6 +39,30 @@ namespace Persistence.Migrations
                     b.HasIndex("VendorId");
 
                     b.ToTable("OrdersIn");
+                });
+
+            modelBuilder.Entity("Domain.OrderInDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("OrderInId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderInId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderInDetails");
                 });
 
             modelBuilder.Entity("Domain.Product", b =>
@@ -149,9 +149,16 @@ namespace Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.OrderDetails", b =>
+            modelBuilder.Entity("Domain.OrderIn", b =>
                 {
-                    b.HasOne("Domain.OrderIn", null)
+                    b.HasOne("Domain.Vendor", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("VendorId");
+                });
+
+            modelBuilder.Entity("Domain.OrderInDetails", b =>
+                {
+                    b.HasOne("Domain.OrderIn", "OrderIn")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderInId");
 
@@ -160,17 +167,10 @@ namespace Persistence.Migrations
                         .HasForeignKey("ProductId");
                 });
 
-            modelBuilder.Entity("Domain.OrderIn", b =>
-                {
-                    b.HasOne("Domain.Vendor", "Vendor")
-                        .WithMany()
-                        .HasForeignKey("VendorId");
-                });
-
             modelBuilder.Entity("Domain.Product", b =>
                 {
                     b.HasOne("Domain.ProductName", "ProductName")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("ProductNameId");
                 });
 #pragma warning restore 612, 618

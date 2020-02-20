@@ -19,8 +19,10 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<PagedList<OrderInDto, Domain.OrderIn>>> Get([FromRoute]List.Query query) => await _mediator.Send(query);
 
-
         [HttpPost]
         public async Task<ActionResult<OrderInDto>> Add(Add.Command command) => await _mediator.Send(command);
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> Delete(int id) => await _mediator.Send(new Delete.Command(id));
     }
 }

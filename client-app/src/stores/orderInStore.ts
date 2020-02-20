@@ -108,6 +108,30 @@ class OrderInStore {
         }
     }
 
+    @action addOrderIn = async (orderInForm: IOrderInBase) => {
+        this.orderInSavingLoading = true;
+        this.orderIn = { ...this.orderIn, ...orderInForm };
+        console.log(this.orderIn);
+
+        try {
+            const orderIn = await agent.OrderIn.create(this.orderIn);
+            toast.success("Salvestatud");
+        } finally {
+            this.orderInSavingLoading = false;
+        }
+    }
+
+    @action deleteOrderIn = async(id: number) => {
+        this.loadingOrdersIn = true;
+
+        try {
+            await agent.OrderIn.delete(id);
+            await this.loadOrdersIn();
+        } finally {
+            this.loadingOrdersIn = false;
+        }
+    }
+
     @action setOrderInListFilter = (filter: IOrderInFilter) => this.ordersInListFilter = filter;
 
     @action loadVendors = async () => {
@@ -177,19 +201,6 @@ class OrderInStore {
 
     @action removeProduct = (index: number) => {
         this.orderIn.products.splice(index, 1);
-    }
-
-    @action addOrderIn = async (orderInForm: IOrderInBase) => {
-        this.orderInSavingLoading = true;
-        this.orderIn = { ...this.orderIn, ...orderInForm };
-        console.log(this.orderIn);
-
-        try {
-            const orderIn = await agent.OrderIn.create(this.orderIn);
-            toast.success("Salvestatud");
-        } finally {
-            this.orderInSavingLoading = false;
-        }
     }
 }
 

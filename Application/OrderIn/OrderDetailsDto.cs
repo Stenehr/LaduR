@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Application.ProductName;
+﻿using Application.ProductName;
 
 namespace Application.OrderIn
 {

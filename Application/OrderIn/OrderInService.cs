@@ -32,7 +32,7 @@ namespace Application.OrderIn
                     Quantity = dto.Quantity
                 };
 
-                var orderDetails = new Domain.OrderDetails
+                var orderDetails = new Domain.OrderInDetails
                 {
                     Product = product,
                     Quantity = product.Quantity

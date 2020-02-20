@@ -15,7 +15,7 @@ const OrdersIn = () => {
     const renderActivites = (item: IOrderInListItem) => {
         return (
             <div>
-                <Icon onClick={() => console.log(`delete ${item.id}`)} color="red" name="delete" link />
+                <Icon onClick={() => orderInStore.deleteOrderIn(item.id)} color="red" name="delete" link />
                 <Icon onClick={() => console.log(`change ${item.id}`)} color="orange" name="pencil alternate" link />
             </div>
         )

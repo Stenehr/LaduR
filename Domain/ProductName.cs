@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Domain
 {
     public class ProductName : Classifier
@@ -8,5 +10,7 @@ namespace Domain
         {
             Name = name;
         }
+
+        public IList<Product> Products { get; set; }
     }
 }

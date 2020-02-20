@@ -8,7 +8,7 @@ namespace Domain
     {
         public Vendor Vendor { get; set; }
         public string BillNumber { get; set; }
-        public IList<OrderDetails> OrderDetails { get; protected set; } = new List<OrderDetails>();
+        public IList<OrderInDetails> OrderDetails { get; protected set; } = new List<OrderInDetails>();
 
         public void Update(IOrderInBase orderInBase)
         {

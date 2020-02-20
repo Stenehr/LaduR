@@ -31,7 +31,8 @@ const ProductNames = {
 
 const OrderIn = {
     list: (query: IOrderInFilter): Promise<PagedList<IOrderInListItem>> => requests.get(`/orderIn?query=${JSON.stringify(query)}`),
-    create: (body: IOrderIn): Promise<any> => requests.post("/orderIn", body)
+    create: (body: IOrderIn): Promise<any> => requests.post("/orderIn", body),
+    delete: (id: number) => requests.delete(`orderIn/${id}`)
 }
 
 export default {

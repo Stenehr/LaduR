@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -78,7 +78,7 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetails",
+                name: "OrderInDetails",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -89,15 +89,15 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetails", x => x.Id);
+                    table.PrimaryKey("PK_OrderInDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_OrdersIn_OrderInId",
+                        name: "FK_OrderInDetails_OrdersIn_OrderInId",
                         column: x => x.OrderInId,
                         principalTable: "OrdersIn",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Products_ProductId",
+                        name: "FK_OrderInDetails_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -130,13 +130,13 @@ namespace Persistence.Migrations
                 values: new object[] { 2, "Tuuliku tee 2", "Espak" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_OrderInId",
-                table: "OrderDetails",
+                name: "IX_OrderInDetails_OrderInId",
+                table: "OrderInDetails",
                 column: "OrderInId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_ProductId",
-                table: "OrderDetails",
+                name: "IX_OrderInDetails_ProductId",
+                table: "OrderInDetails",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -153,7 +153,7 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OrderDetails");
+                name: "OrderInDetails");
 
             migrationBuilder.DropTable(
                 name: "OrdersIn");
