@@ -114,7 +114,7 @@ class OrderInStore {
         console.log(this.orderIn);
 
         try {
-            const orderIn = await agent.OrderIn.create(this.orderIn);
+            await agent.OrderIn.create(this.orderIn);
             toast.success("Salvestatud");
         } finally {
             this.orderInSavingLoading = false;
@@ -129,6 +129,27 @@ class OrderInStore {
             await this.loadOrdersIn();
         } finally {
             this.loadingOrdersIn = false;
+        }
+    }
+
+    
+    @action setEditOrderInItem = (id: string | number) => {
+        if (((this.ordersInList && this.ordersInList.items) || []).length < 1) {
+            return;
+        }
+
+        const item = this.ordersInList.items.filter((orderIn) => orderIn.id === Number(id))[0];
+
+        this.orderIn = {
+            billNumber: item.billNumber,
+            extraInfo: item.extraInfo,
+            orderDate: typeof item.orderDate === "string" ? new Date(item.orderDate) : item.orderDate,
+            vendorId: item.vendor.id,
+            products: item.orderDetails.map((od) => { return { 
+                productNameId: od.productName.id,
+                quantity: od.quantity,
+                price: od.price
+            }})
         }
     }
 

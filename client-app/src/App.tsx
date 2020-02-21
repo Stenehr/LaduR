@@ -19,7 +19,7 @@ const App: React.FC = () => {
       <Container>
         <Route path="/" exact component={HomePage} />
         <Route path="/orders-in" exact component={OrdersIn} />
-        <Route path="/add-order-in" exact component={AddOrderIn} />
+        <Route path={["/add-order-in", "/edit-order-in/:id"]} exact component={AddOrderIn} />
         <Route path="/add-vendor" exact component={AddVendor} />
         <Route path="/add-product-name" exact component={AddProductName} />
       </Container>

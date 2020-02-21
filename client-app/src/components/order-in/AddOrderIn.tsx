@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
 import { Field, Form as FinalForm } from "react-final-form";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Header, Segment, Container, Grid } from "semantic-ui-react";
 
 import OrderInStore from "../../stores/orderInStore";
@@ -11,11 +11,10 @@ import TextInput from "../common/form/TextInput";
 import AddProduct from "./AddProduct";
 import BottomComponent from "../common/BottomComponent";
 import ProductTable from "./ProductTable";
-import { combineValidators, isRequired } from "revalidate";
+import { combineValidators } from "revalidate";
 import { customIsRequired } from "../../utils/utils";
 import Datepicker from "../common/form/Datepicker";
 import { IOrderInBase } from "../../stores/orderInStore";
-import { ValidationErrors } from "final-form";
 import { toast } from "react-toastify";
 
 const validation = combineValidators({
@@ -24,7 +23,11 @@ const validation = combineValidators({
     orderDate: customIsRequired("Kuupäev")
 });
 
-const AddOrderIn = () => {
+interface IEditParams {
+    id: string
+}
+
+const AddOrderIn: React.FC<RouteComponentProps<IEditParams>> = ({ match }) => {
     const orderInStore = useContext(OrderInStore);
     const vendorsLoaded = orderInStore.vendorsLoaded;
     const productNamesLoaded = orderInStore.productNamesLoaded;
@@ -32,6 +35,9 @@ const AddOrderIn = () => {
     useEffect(() => {
         orderInStore.loadVendors();
         orderInStore.loadProductNames();
+        if (match.params.id) {
+            orderInStore.setEditOrderInItem(match.params.id);
+        }
     }, [orderInStore, !vendorsLoaded, !productNamesLoaded]);
 
     const handleFormSubmit = (orderInForm: IOrderInBase) => {

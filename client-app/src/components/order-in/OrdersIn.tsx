@@ -3,7 +3,8 @@ import DataTable, { IDataTableHeaderItem } from "../common/DataTable";
 import { observer } from 'mobx-react-lite';
 import OrderInStore from "../../stores/orderInStore";
 import { IOrderInListItem, IOrderDetailsListItem } from './types';
-import { Icon } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 const OrdersIn = () => {
     const orderInStore = useContext(OrderInStore);
@@ -14,10 +15,10 @@ const OrdersIn = () => {
 
     const renderActivites = (item: IOrderInListItem) => {
         return (
-            <div>
-                <Icon onClick={() => orderInStore.deleteOrderIn(item.id)} color="red" name="delete" link />
-                <Icon onClick={() => console.log(`change ${item.id}`)} color="orange" name="pencil alternate" link />
-            </div>
+            <Button.Group compact size="tiny">
+                <Button onClick={() => orderInStore.deleteOrderIn(item.id)} icon="delete" color="red"/>
+                <Button as={Link} to={`/edit-order-in/${item.id}`} icon="pencil alternate" color="orange" />
+            </Button.Group>
         )
     }
 

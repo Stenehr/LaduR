@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { IAddVendor, IVendor } from '../components/vendor/types';
 import { IAddProductName, IProductName } from '../components/product-name/types';
 import { IOrderIn, IOrderInFilter } from '../stores/orderInStore';

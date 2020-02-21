@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import OrderInStore from "../../stores/orderInStore";
-import { Table, Icon } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { DeleteIconButton } from '../common/form/DeleteIconButton';
 
