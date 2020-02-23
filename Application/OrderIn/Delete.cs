@@ -12,20 +12,20 @@ namespace Application.OrderIn
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IOrderInService _orderInService;
+
+            public Handler(DataContext context, IOrderInService orderInService)
             {
                 _context = context;
+                _orderInService = orderInService;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var orderIn = await _context.OrdersIn
-                    .Include(x => x.OrderDetails)
-                    .ThenInclude(od => od.Product)
-                    .FirstOrDefaultAsync(x => x.Id == request.Id);
+                var orderIn = await _orderInService.GetOrderInWithDetails(request.Id);
 
                 if (orderIn == null)
-                    throw new Exception("Ei leitud toote nime, mida kustutada");
+                    throw new Exception("Ei leitud sisseostu, mida kustutada");
 
                 _context.Remove(orderIn);
                 await _context.SaveChangesAsync();

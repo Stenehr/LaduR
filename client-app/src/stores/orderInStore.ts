@@ -8,8 +8,10 @@ import { IProductName, IAddProductName } from '../components/product-name/types'
 import { toast } from "react-toastify";
 import { IOrderInListItem } from '../components/order-in/types';
 import { PagedList } from '../components/common/types';
+import moment from 'moment';
 
 export interface IOrderInBase {
+    id: number | null;
     vendorId: number | string | null;
     orderDate: null | Date;
     billNumber: null | string;
@@ -64,7 +66,8 @@ class OrderInStore {
     @observable productNames: IProductName[] = [];
     @observable productNamesLoaded = false;
 
-    @observable orderIn: IOrderIn = {
+    @observable orderIn: IOrderIn= {
+        id: null,
         vendorId: null,
         orderDate: new Date(new Date().setHours(0, 0, 0, 0)),
         billNumber: null,
@@ -108,14 +111,15 @@ class OrderInStore {
         }
     }
 
-    @action addOrderIn = async (orderInForm: IOrderInBase) => {
+    @action saveOrderIn = async (orderInForm: IOrderInBase) => {
         this.orderInSavingLoading = true;
         this.orderIn = { ...this.orderIn, ...orderInForm };
         console.log(this.orderIn);
 
         try {
-            await agent.OrderIn.create(this.orderIn);
-            toast.success("Salvestatud");
+            await (this.orderIn.id ? agent.OrderIn.update(this.orderIn) : agent.OrderIn.create(this.orderIn))
+            toast.success(this.orderIn.id ? "Muudetud" : "Salvestatud");
+            history.push("/orders-in")
         } finally {
             this.orderInSavingLoading = false;
         }
@@ -133,19 +137,23 @@ class OrderInStore {
     }
 
     
-    @action setEditOrderInItem = (id: string | number) => {
+    @action setEditOrderInItem = async (id: string | number) => {
         if (((this.ordersInList && this.ordersInList.items) || []).length < 1) {
             return;
         }
+        await this.loadVendors();
+        await this.loadProductNames();
 
         const item = this.ordersInList.items.filter((orderIn) => orderIn.id === Number(id))[0];
 
         this.orderIn = {
+            id: item.id,
             billNumber: item.billNumber,
             extraInfo: item.extraInfo,
-            orderDate: typeof item.orderDate === "string" ? new Date(item.orderDate) : item.orderDate,
+            orderDate: typeof item.orderDate === "string" ? moment(item.orderDate).toDate() : item.orderDate,
             vendorId: item.vendor.id,
             products: item.orderDetails.map((od) => { return { 
+                id: od.productId,
                 productNameId: od.productName.id,
                 quantity: od.quantity,
                 price: od.price

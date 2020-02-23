@@ -42,17 +42,8 @@ namespace Application.OrderIn
             }
         }
 
-        public class Command : IRequest<OrderInDto>, IOrderInBase
-        {
-            public string BillNumber { get; set; }
-
-            [JsonIgnore]
-            public Domain.Vendor Vendor { get; set; }
-            public int VendorId { get; set; }
-            public DateTime OrderDate { get; set; }
-            public string ExtraInfo { get; set; }
-            public IList<ProductDto> Products { get; set; }
-        }
+        public class Command : OrderInBaseCommand, IRequest<OrderInDto>
+        { }
 
         public class OrderInAddValidator : AbstractValidator<Command> 
         {

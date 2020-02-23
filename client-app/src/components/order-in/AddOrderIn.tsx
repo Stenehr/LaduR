@@ -45,7 +45,7 @@ const AddOrderIn: React.FC<RouteComponentProps<IEditParams>> = ({ match }) => {
             toast.error("Sisseostul puuduvad tooted");
             return;
         }
-        orderInStore.addOrderIn(orderInForm);
+        orderInStore.saveOrderIn(orderInForm);
     };
 
     return (

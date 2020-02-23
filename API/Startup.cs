@@ -1,4 +1,3 @@
-using Application.ProductName;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,8 +39,8 @@ namespace API
                     .WithOrigins("http://localhost:3000");
                 });
             });
-            services.AddMediatR(typeof(Edit.Command).Assembly);
-            services.AddAutoMapper(typeof(Edit.Command).Assembly);
+            services.AddMediatR(typeof(Application.ProductName.Edit.Command).Assembly);
+            services.AddAutoMapper(typeof(Application.ProductName.Edit.Command).Assembly);
             services.AddScoped<IOrderInService, OrderInService>();
         }
 
