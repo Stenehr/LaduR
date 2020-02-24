@@ -1,22 +1,41 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import DataTable, { IDataTableHeaderItem } from "../common/DataTable";
 import { observer } from 'mobx-react-lite';
 import OrderInStore from "../../stores/orderInStore";
 import { IOrderInListItem, IOrderDetailsListItem } from './types';
-import { Button } from 'semantic-ui-react';
+import { Button, Confirm } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const OrdersIn = () => {
     const orderInStore = useContext(OrderInStore);
 
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+    const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
+
     useEffect(() => {
         orderInStore.loadOrdersIn();
     }, [orderInStore, !orderInStore.ordersInListLoaded])
 
+    const setDeleteItemUp = (itemId: number) => {
+        setDeleteConfirmOpen(true);
+        setDeleteItemId(itemId);
+    } 
+
+    const confirmDelete = () => {
+        orderInStore.deleteOrderIn(deleteItemId!);
+        setDeleteConfirmOpen(false);
+        setDeleteItemId(null);
+    }
+
+    const cancelDelete = () => {
+        setDeleteConfirmOpen(false);
+        setDeleteItemId(null);
+    }
+
     const renderActivites = (item: IOrderInListItem) => {
         return (
             <Button.Group compact size="tiny">
-                <Button onClick={() => orderInStore.deleteOrderIn(item.id)} icon="delete" color="red"/>
+                <Button onClick={() => setDeleteItemUp(item.id)} icon="delete" color="red"/>
                 <Button as={Link} to={`/edit-order-in/${item.id}`} icon="pencil alternate" color="orange" />
             </Button.Group>
         )
@@ -52,7 +71,15 @@ const OrdersIn = () => {
                 source={orderInStore.ordersInList}
                 header={tableHeader}
                 rowContent={renderRowContent}
-            />      
+            />
+            <Confirm
+                open={deleteConfirmOpen}
+                content="Olete kindel, et soovite kustutada?"
+                cancelButton="Tagasi"
+                confirmButton="Kinnita"
+                onConfirm={confirmDelete}
+                onCancel={cancelDelete}
+            />
         </div>
     )
 }
