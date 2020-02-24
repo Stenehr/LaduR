@@ -3,7 +3,7 @@ import DataTable, { IDataTableHeaderItem } from "../common/DataTable";
 import { observer } from 'mobx-react-lite';
 import OrderInStore from "../../stores/orderInStore";
 import { IOrderInListItem, IOrderDetailsListItem } from './types';
-import { Button, Confirm } from 'semantic-ui-react';
+import { Button, Confirm, Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const OrdersIn = () => {
@@ -67,11 +67,15 @@ const OrdersIn = () => {
 
     return (
         <div>
-            <DataTable
-                source={orderInStore.ordersInList}
-                header={tableHeader}
-                rowContent={renderRowContent}
-            />
+            {orderInStore.loadingOrdersIn ? (
+                <Loader active inline="centered" />
+            ) : (
+                <DataTable
+                    source={orderInStore.ordersInList}
+                    header={tableHeader}
+                    rowContent={renderRowContent}
+                />
+            )}
             <Confirm
                 open={deleteConfirmOpen}
                 content="Olete kindel, et soovite kustutada?"

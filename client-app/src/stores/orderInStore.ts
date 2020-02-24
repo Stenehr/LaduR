@@ -36,6 +36,17 @@ function emptyProduct(): IProduct {
     }
 }
 
+function emptyOrderIn(): IOrderIn {
+    return {
+        id: null,
+        vendorId: null,
+        orderDate: new Date(new Date().setHours(0, 0, 0, 0)),
+        billNumber: null,
+        extraInfo: null,
+        products: []
+    };
+}
+
 export interface IOrderInFilter {
     vendorId: number | null;
     billNumber: string | null;
@@ -66,14 +77,7 @@ class OrderInStore {
     @observable productNames: IProductName[] = [];
     @observable productNamesLoaded = false;
 
-    @observable orderIn: IOrderIn= {
-        id: null,
-        vendorId: null,
-        orderDate: new Date(new Date().setHours(0, 0, 0, 0)),
-        billNumber: null,
-        extraInfo: null,
-        products: []
-    };
+    @observable orderIn: IOrderIn = emptyOrderIn();
 
     @observable selectedProduct: IProduct = emptyProduct();
 
@@ -119,6 +123,7 @@ class OrderInStore {
         try {
             await (this.orderIn.id ? agent.OrderIn.update(this.orderIn) : agent.OrderIn.create(this.orderIn))
             toast.success(this.orderIn.id ? "Muudetud" : "Salvestatud");
+            this.orderIn = emptyOrderIn();
             history.push("/orders-in")
         } finally {
             this.orderInSavingLoading = false;
