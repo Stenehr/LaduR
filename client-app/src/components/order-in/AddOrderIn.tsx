@@ -80,7 +80,6 @@ const AddOrderIn: React.FC<RouteComponentProps<IEditParams>> = ({ match }) => {
                                         name="orderDate"
                                         labelText="Ostuaeg"
                                         component={Datepicker}
-                                        onChange={(data: any) => console.log(data)}
                                     />
                                     <Field
                                         name="billNumber"
