@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
 import { Field, Form as FinalForm } from "react-final-form";
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Form, Header, Segment, Container, Grid } from "semantic-ui-react";
+import { Link, RouteComponentProps } from "react-router-dom";
+import { Button, Form, Header, Segment, Container, Grid, Loader } from "semantic-ui-react";
 
 import OrderInStore from "../../stores/orderInStore";
 import DropdownInput from "../common/form/DropdownInput";
@@ -24,7 +24,7 @@ const validation = combineValidators({
 });
 
 interface IEditParams {
-    id: string
+    id: string;
 }
 
 const AddOrderIn: React.FC<RouteComponentProps<IEditParams>> = ({ match }) => {
@@ -57,71 +57,75 @@ const AddOrderIn: React.FC<RouteComponentProps<IEditParams>> = ({ match }) => {
             <Button as={Link} to="/add-product-name" color="twitter">
                 Lisa tootenimi
             </Button>
-            <Segment raised loading={orderInStore.orderInSavingLoading}>
-                <FinalForm
-                    validate={validation}
-                    initialValues={orderInStore.orderIn}
-                    onSubmit={handleFormSubmit}
-                    render={({ handleSubmit, invalid, pristine }) => (
-                        <Form id="order-in-form" onSubmit={handleSubmit}>
-                            <h3>Ostukohainfo</h3>
-                            <Form.Group widths="equal">
+            {orderInStore.loadingInitial ? (
+                <Loader active inline="centered" />
+            ) : (
+                <Segment raised loading={orderInStore.orderInSavingLoading}>
+                    <FinalForm
+                        validate={validation}
+                        initialValues={orderInStore.orderIn}
+                        onSubmit={handleFormSubmit}
+                        render={({ handleSubmit, invalid, pristine }) => (
+                            <Form id="order-in-form" onSubmit={handleSubmit}>
+                                <h3>Ostukohainfo</h3>
+                                <Form.Group widths="equal">
+                                    <Field
+                                        name="vendorId"
+                                        placeholder="Vali ostukoht..."
+                                        labelText="Ostukoht"
+                                        options={orderInStore.dropdownVendors}
+                                        component={DropdownInput}
+                                    />
+                                    <Field
+                                        name="orderDate"
+                                        labelText="Ostuaeg"
+                                        component={Datepicker}
+                                        onChange={(data: any) => console.log(data)}
+                                    />
+                                    <Field
+                                        name="billNumber"
+                                        placeholder="Tšeki nr..."
+                                        labelText="Ostutšeki number"
+                                        component={TextInput}
+                                    />
+                                </Form.Group>
                                 <Field
-                                    name="vendorId"
-                                    placeholder="Vali ostukoht..."
-                                    labelText="Ostukoht"
-                                    options={orderInStore.dropdownVendors}
-                                    component={DropdownInput}
+                                    name="extraInfo"
+                                    placeholder="Lisainfo..."
+                                    labelText="Lisainfo"
+                                    rows="3"
+                                    component={TextAreaInput}
                                 />
-                                <Field
-                                    name="orderDate"
-                                    labelText="Ostuaeg"
-                                    component={Datepicker}
-                                    onChange={(data: any) => console.log(data)}
-                                />
-                                <Field
-                                    name="billNumber"
-                                    placeholder="Tšeki nr..."
-                                    labelText="Ostutšeki number"
-                                    component={TextInput}
-                                />
-                            </Form.Group>
-                            <Field
-                                name="extraInfo"
-                                placeholder="Lisainfo..."
-                                labelText="Lisainfo"
-                                rows="3"
-                                component={TextAreaInput}
-                            />
-                            <BottomComponent>
-                                <Container>
-                                    <Segment raised style={{ marginTop: "1rem" }}>
-                                        <Button
-                                            disabled={invalid || pristine}
-                                            type="submit"
-                                            primary
-                                            form="order-in-form"
-                                        >
-                                            Salvesta
-                                        </Button>
-                                    </Segment>
-                                </Container>
-                            </BottomComponent>
-                        </Form>
-                    )}
-                />
-                <h3>Tooteinfo</h3>
-                <Grid>
-                    <Grid.Row>
-                        <Grid.Column width={6}>
-                            <AddProduct />
-                        </Grid.Column>
-                        <Grid.Column width={10}>
-                            <ProductTable />
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </Segment>
+                                <BottomComponent>
+                                    <Container>
+                                        <Segment raised style={{ marginTop: "1rem" }}>
+                                            <Button
+                                                disabled={!orderInStore.orderIn.id && (invalid || pristine)}
+                                                type="submit"
+                                                primary
+                                                form="order-in-form"
+                                            >
+                                                Salvesta
+                                            </Button>
+                                        </Segment>
+                                    </Container>
+                                </BottomComponent>
+                            </Form>
+                        )}
+                    />
+                    <h3>Tooteinfo</h3>
+                    <Grid>
+                        <Grid.Row>
+                            <Grid.Column width={6}>
+                                <AddProduct />
+                            </Grid.Column>
+                            <Grid.Column width={10}>
+                                <ProductTable />
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </Segment>
+            )}
         </div>
     );
 };
