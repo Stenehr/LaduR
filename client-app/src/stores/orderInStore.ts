@@ -40,7 +40,7 @@ function emptyOrderIn(): IOrderIn {
     return {
         id: null,
         vendorId: null,
-        orderDate: new Date(new Date().setHours(0, 0, 0, 0)),
+        orderDate: moment().startOf("day").toDate(),
         billNumber: null,
         extraInfo: null,
         products: []
@@ -62,8 +62,8 @@ class OrderInStore {
     @observable ordersInListFilter: IOrderInFilter = {
         vendorId: null,
         billNumber: null,
-        startDate: null,
-        endDate: null,
+        startDate: moment().startOf("day").subtract("days", 90).toDate(),
+        endDate: moment().startOf("day").toDate(),
         pageNum: 1
     }
 

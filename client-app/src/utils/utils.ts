@@ -20,10 +20,6 @@ export function inputToDate(value: string | Date | null | undefined): Date | nul
     if (typeof value === "string") {
         return new Date(value);
     }
-    debugger;
-    if (!value) {
-        return new Date();
-    }
 
     return value;
 }

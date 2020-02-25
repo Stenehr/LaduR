@@ -7,7 +7,7 @@ import { Button, Confirm, Loader, Segment, Form } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import DropdownInput from "../common/form/DropdownInput";
 import { Field, Form as FinalForm } from "react-final-form";
-import Datepicker from '../common/form/Datepicker';
+import Datepicker from "../common/form/Datepicker";
 
 const OrdersIn = () => {
     const orderInStore = useContext(OrderInStore);
@@ -84,22 +84,16 @@ const OrdersIn = () => {
                             onSubmit={handleFormSubmit}
                             render={({ handleSubmit }) => (
                                 <Form onSubmit={handleSubmit}>
-                                    <Field
-                                        name="vendorId"
-                                        placeholder="Ostukoht..."
-                                        options={orderInStore.dropdownVendors}
-                                        component={DropdownInput}
-                                    />
-                                    <Field
-                                        name="startDate"
-                                        placeholder="Algus kp..."
-                                        component={Datepicker}
-                                    />
-                                    <Field
-                                        name="endDate"
-                                        placeholder="Lõpp kp..."
-                                        component={Datepicker}
-                                    />
+                                    <Form.Group>
+                                        <Field
+                                            name="vendorId"
+                                            placeholder="Ostukoht..."
+                                            options={orderInStore.dropdownVendors}
+                                            component={DropdownInput}
+                                        />
+                                        <Field name="startDate" placeholder="Algus kp..." component={Datepicker} />
+                                        <Field name="endDate" placeholder="Lõpp kp..." component={Datepicker} />
+                                    </Form.Group>
                                 </Form>
                             )}
                         />
