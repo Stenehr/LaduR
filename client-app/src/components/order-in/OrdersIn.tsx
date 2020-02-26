@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import DropdownInput from "../common/form/DropdownInput";
 import { Field, Form as FinalForm } from "react-final-form";
 import Datepicker from "../common/form/Datepicker";
+import TextInput from "../common/form/TextInput";
 
 const OrdersIn = () => {
     const orderInStore = useContext(OrderInStore);
@@ -84,15 +85,19 @@ const OrdersIn = () => {
                             onSubmit={handleFormSubmit}
                             render={({ handleSubmit }) => (
                                 <Form onSubmit={handleSubmit}>
-                                    <Form.Group>
+                                    <Form.Group widths="equal">
                                         <Field
                                             name="vendorId"
                                             placeholder="Ostukoht..."
                                             options={orderInStore.dropdownVendors}
                                             component={DropdownInput}
                                         />
+                                        <Field name="billNumber" placeholder="Tseki nr..." component={TextInput} />
+                                    </Form.Group>
+                                    <Form.Group>
                                         <Field name="startDate" placeholder="Algus kp..." component={Datepicker} />
                                         <Field name="endDate" placeholder="Lõpp kp..." component={Datepicker} />
+                                        <Form.Field control={Button}>Otsi</Form.Field>
                                     </Form.Group>
                                 </Form>
                             )}
